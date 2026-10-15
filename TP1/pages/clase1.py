@@ -26,9 +26,11 @@ def show_class():
 
     st.divider()
     st.subheader("Canales de color")
-    for channel in image.getbands():
-        st.image(
-            image.getchannel(channel),
-            caption=f"Canal {channel}",
-            width=768,
-        )
+    columns = st.columns(3)
+    for column, channel in zip(columns, image.getbands()):
+        with column:
+            st.image(
+                image.getchannel(channel),
+                caption=f"Canal {channel}",
+                width="stretch",
+            )

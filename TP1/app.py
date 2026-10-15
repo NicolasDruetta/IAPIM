@@ -113,10 +113,8 @@ def home():
     if "image_bytes" in st.session_state:
         image = Image.open(io.BytesIO(st.session_state.image_bytes)).convert("RGB")
         dimensions = get_dimensions_text(image)
-        status_column, clear_column = st.columns([6, 3])
-        with status_column:
+        with st.container(horizontal=True, width="content"):
             st.success(f"Imagen lista para procesar: {st.session_state.image_name}")
-        with clear_column:
             if st.button(
                 "Eliminar imagen",
                 key="clear_image",
