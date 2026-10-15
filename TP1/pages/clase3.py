@@ -5,7 +5,7 @@ import streamlit as st
 from PIL import Image, ImageFilter
 
 def body_class3():
-    st.title("Clase 3 - Filtros básicos")
+    st.title("Clase 3: Streamlit")
 
     fn.st_subheader(
         "Imagen original",

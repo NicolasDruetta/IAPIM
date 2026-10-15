@@ -5,7 +5,7 @@ import streamlit as st
 from PIL import Image, ImageEnhance, ImageOps
 
 def body_class2():
-    st.title("Clase 2 - Flujo de trabajo")
+    st.title("Clase 2: Herramientas y Bibliotecas")
 
     fn.st_subheader(
         "Imagen original",

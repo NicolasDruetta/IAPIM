@@ -1,3 +1,5 @@
+import matplotlib.pyplot as plt
+import numpy as np
 import streamlit as st
 
 from pathlib import Path
@@ -15,6 +17,7 @@ def apply_theme(dark_mode):
             "--disabled-text": "#8B949E",
             "--control": "#262730",
             "--border": "#30363D",
+            "--table-border": "#596273",
             "--warning-text": "#FFD166",
             "--success-text": "#A5D6A7",
             "--info-text": "#90CAF9",
@@ -31,6 +34,7 @@ def apply_theme(dark_mode):
             "--disabled-text": "#6B7280",
             "--control": "#FFFFFF",
             "--border": "#D6D9E0",
+            "--table-border": "#AAB2BF",
             "--warning-text": "#7A4B00",
             "--success-text": "#1B5E20",
             "--info-text": "#2F6FB5",
@@ -47,6 +51,15 @@ def apply_theme(dark_mode):
     )
     st.markdown(f"<style>{variables}{stylesheet}</style>", unsafe_allow_html=True)
 
+def calculate_manual_histogram(image):
+    histogram = np.zeros(256, dtype=int)
+
+    for row in image:
+        for intensity in row:
+            histogram[intensity] += 1
+
+    return histogram
+
 def clear_image(cache):
     st.session_state.pop("image_bytes", None)
     st.session_state.pop("image_name", None)
@@ -60,14 +73,37 @@ def clear_image(cache):
     cache.page_path.write_text("Inicio", encoding="utf-8")
     st.rerun()
 
-def get_dimensions_text(image, max_width=520):
+def create_histogram_figure(histogram, title):
+    figure, axis = plt.subplots(figsize=(5.2, 3.0))
+    axis.plot(histogram)
+    axis.set_title(title)
+    axis.set_xlabel("Niveles de intensidad")
+    axis.set_ylabel("Frecuencia")
+    axis.set_xlim([0, 255])
+    axis.grid(True, alpha=0.25)
+
+    return figure
+
+def get_dimensions_text(image, max_width=None):
+    if max_width is None:
+        max_width = st.session_state.default_width
+
     original_width, original_height = image.size
     display_width = min(max_width, original_width)
     display_height = round(original_height * display_width / original_width)
 
     return original_width, original_height, display_width, display_height
 
-def get_image_caption(image, image_name, max_width=520):
+def get_histograma(histogram, title, width=None):
+    if width is None:
+        width = st.session_state.default_width
+
+    st.pyplot(
+        create_histogram_figure(histogram, title),
+        width=width,
+    )
+
+def get_image_caption(image, image_name, max_width=None):
     dimensions = get_dimensions_text(image, max_width)
     original_width, original_height, display_width, display_height = dimensions
     return (
@@ -108,7 +144,10 @@ def show_original_image(image, image_name):
     caption = get_image_caption(image, image_name)
     st_image(image, caption=caption)
 
-def st_image(image, caption=None, width=520):
+def st_image(image, caption=None, width=None):
+    if width is None:
+        width = st.session_state.default_width
+
     st.image(image, caption=caption, width=width)
 
 def st_subheader(subheader, write=None):

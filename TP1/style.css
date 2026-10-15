@@ -89,6 +89,18 @@
             opacity: 1 !important;
         }
 
+[data-testid="stTable"] > div {
+    border: 1px solid var(--table-border) !important;
+    border-radius: 5px !important;
+}
+
+    [data-testid="stTable"] table th,
+    [data-testid="stTable"] table td {
+        background-color: var(--control) !important;
+        border: 1px solid var(--table-border) !important;
+        color: var(--text) !important;
+    }
+
 [role="listbox"],
 [role="option"],
 [data-baseweb="menu"],

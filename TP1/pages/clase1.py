@@ -5,7 +5,7 @@ import streamlit as st
 from PIL import Image
 
 def body_class1():
-    st.title("Clase 1 - Introducción al procesamiento de imágenes")
+    st.title("Clase 1: Introducción al Procesamiento de Imágenes")
 
     fn.st_subheader(
         "Imagen original",

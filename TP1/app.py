@@ -3,6 +3,9 @@ import functions as fn
 import pages.clase1 as clase1
 import pages.clase2 as clase2
 import pages.clase3 as clase3
+import pages.clase4 as clase4
+import pages.clase5 as clase5
+import pages.clase6 as clase6
 import pages.home as home
 import streamlit as st
 
@@ -10,11 +13,16 @@ from functools import partial
 from pathlib import Path
 from types import SimpleNamespace
 
+st.session_state.default_width = 520
 st.set_page_config(page_title="TP1", layout="wide", initial_sidebar_state="expanded")
+
 fn = importlib.reload(fn)
 clase1 = importlib.reload(clase1)
 clase2 = importlib.reload(clase2)
 clase3 = importlib.reload(clase3)
+clase4 = importlib.reload(clase4)
+clase5 = importlib.reload(clase5)
+clase6 = importlib.reload(clase6)
 home = importlib.reload(home)
 
 cache = SimpleNamespace(
@@ -35,6 +43,9 @@ pages = {
     "Clase 1": clase1.body_class1,
     "Clase 2": clase2.body_class2,
     "Clase 3": clase3.body_class3,
+    "Clase 4": clase4.body_class4,
+    "Clase 5": clase5.body_class5,
+    "Clase 6": clase6.body_class6,
 }
 
 if "page" not in st.session_state:
