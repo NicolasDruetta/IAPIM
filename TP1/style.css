@@ -24,6 +24,13 @@ header[data-testid="stHeader"] {
     display: block;
 }
 
+hr {
+    border-color: #9aa0a6;
+    border-top: 1px solid #9aa0a6 !important;
+    margin: 0 0 15px 0 !important;
+    opacity: 1;
+}
+
 [data-testid="stAlert"] {
     width: fit-content;
     max-width: 100%;
@@ -33,13 +40,17 @@ header[data-testid="stHeader"] {
     color: var(--text);
 }
 
-    [data-testid="stAlert"]:has([data-testid*="Warning"]) p {
-        color: var(--warning-text) !important;
-    }
+[data-testid="stSidebar"] [data-testid="stIconMaterial"] {
+    margin-top: -1px;
+}
 
-    [data-testid="stAlert"]:has([data-testid*="Success"]) p {
-        color: #2e7d32 !important;
-    }
+[data-testid="stAlert"]:has([data-testid*="Warning"]) p {
+    color: var(--warning-text) !important;
+}
+
+[data-testid="stAlert"]:has([data-testid*="Success"]) p {
+    color: #2e7d32 !important;
+}
 
 .stHorizontalBlock .stButton > button[kind="primary"] {
     background: #c85c5c !important;
@@ -55,13 +66,19 @@ header[data-testid="stHeader"] {
     color: var(--text) !important;
 }
 
-    [data-testid="stFileUploaderDropzone"] small,
-    [data-testid="stFileUploaderDropzone"] span {
-        color: var(--text) !important;
-    }
+[data-testid="stFileUploaderDropzone"] small,
+[data-testid="stFileUploaderDropzone"] span {
+    color: var(--text) !important;
+}
 
-    .stButton > button[kind="primary"] {
-        background: var(--selected) !important;
-        border-color: var(--border) !important;
-        color: var(--selected-text) !important;
-    }
+[data-testid="stFileUploader"] label,
+[data-testid="stFileUploader"] label p {
+    color: var(--text) !important;
+    opacity: 1 !important;
+}
+
+.stButton > button[kind="primary"] {
+    background: var(--selected) !important;
+    border-color: var(--border) !important;
+    color: var(--selected-text) !important;
+}

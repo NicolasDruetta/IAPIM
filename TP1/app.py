@@ -2,13 +2,14 @@ import importlib
 import io
 import pages.clase1 as clase1
 import streamlit as st
+import utils
 
 from pathlib import Path
 from PIL import Image
-from utils import get_dimensions_text
 
 st.set_page_config(page_title="TP1", layout="wide", initial_sidebar_state="expanded")
 clase1 = importlib.reload(clase1)
+utils = importlib.reload(utils)
 
 cache_dir = Path(__file__).with_name(".cache")
 cache_image_name_path = cache_dir / "last_image_name.txt"
@@ -88,8 +89,10 @@ def apply_theme(dark_mode):
 
 
 def home():
-    st.title("TP1 - Procesamiento de Imágenes")
-    st.write("Cargá una imagen para comenzar a trabajar con el programa.")
+    utils.title(
+        "TP1 - Procesamiento de Imágenes",
+        "Cargá una imagen para comenzar a trabajar con el programa.",
+    )
 
     if "upload_version" not in st.session_state:
         st.session_state.upload_version = 0
@@ -115,7 +118,7 @@ def home():
 
     if "image_bytes" in st.session_state:
         image = Image.open(io.BytesIO(st.session_state.image_bytes)).convert("RGB")
-        dimensions = get_dimensions_text(image)
+        dimensions = utils.get_dimensions_text(image)
         with st.container(horizontal=True, width="content"):
             st.success(f"Imagen lista para procesar: {st.session_state.image_name}")
             if st.button(

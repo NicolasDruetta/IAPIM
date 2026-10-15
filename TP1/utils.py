@@ -1,3 +1,10 @@
+import streamlit as st
+
+def title(title_text, subtitle):
+    st.title(title_text)
+    st.write(subtitle)
+    st.divider()
+
 def get_dimensions_text(image, max_width=768):
     original_width, original_height = image.size
     display_width = min(max_width, original_width)

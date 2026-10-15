@@ -1,8 +1,8 @@
 import io
 import streamlit as st
+import utils
 
 from PIL import Image
-from utils import get_dimensions_text
 
 def show_basic_info(image):
     width, height = image.size
@@ -26,20 +26,23 @@ def show_color_channels(image):
             )
 
 def show_class():
-    st.title("Clase 1 - Introducción al procesamiento de imágenes")
+    utils.title(
+        "Clase 1 - Introducción al procesamiento de imágenes",
+        "Analizá la imagen cargada con herramientas básicas.",
+    )
 
     if "image_bytes" not in st.session_state:
         st.warning("Primero cargá una imagen desde Inicio.")
         return
 
     image = Image.open(io.BytesIO(st.session_state.image_bytes)).convert("RGB")
-    dimensions = get_dimensions_text(image)
-
+    dimensions = utils.get_dimensions_text(image)
+  
+    show_basic_info(image)
+    
+    st.divider()
     st.subheader("Imagen original")
     st.image(image, caption=dimensions, width=768)
-
-    st.divider()
-    show_basic_info(image)
 
     st.divider()
     show_color_channels(image)
