@@ -1,17 +1,33 @@
-.stApp,
-header[data-testid="stHeader"] {
-    background: var(--background);
-    color: var(--text);
-    color-scheme: var(--color-scheme);
+[data-testid="stAlert"] {
+    max-width: 100%;
+    width: fit-content;
 }
 
-[data-testid="stSidebar"] {
-    background: var(--sidebar);
+    [data-testid="stAlert"]:has([data-testid*="Success"]) p {
+        color: #2e7d32 !important;
+    }
+
+    [data-testid="stAlert"]:has([data-testid*="Warning"]) p {
+        color: var(--warning-text) !important;
+    }
+
+[data-testid="stFileUploader"] label,
+[data-testid="stFileUploader"] label p {
+    color: var(--text) !important;
+    opacity: 1 !important;
 }
 
-[data-testid="stSidebarNav"] {
-    display: none;
+[data-testid="stFileUploaderDropzone"],
+[data-testid="stFileUploaderDropzone"] button {
+    background: var(--control) !important;
+    border-color: var(--border) !important;
+    color: var(--text) !important;
 }
+
+    [data-testid="stFileUploaderDropzone"] small,
+    [data-testid="stFileUploaderDropzone"] span {
+        color: var(--text) !important;
+    }
 
 [data-testid="stImage"] {
     border: none !important;
@@ -24,33 +40,46 @@ header[data-testid="stHeader"] {
     display: block;
 }
 
-hr {
-    border-color: #9aa0a6;
-    border-top: 1px solid #9aa0a6 !important;
-    margin: 0 0 15px 0 !important;
-    opacity: 1;
+[data-testid="stMainBlockContainer"],
+[data-testid="stSidebarContent"] {
+    padding-top: 1.5rem !important;
 }
 
-[data-testid="stAlert"] {
-    width: fit-content;
-    max-width: 100%;
+[data-testid="stSidebar"] {
+    background: var(--sidebar);
 }
 
-[data-testid="stSidebar"] * {
+    [data-testid="stSidebar"] * {
+        color: var(--text);
+    }
+
+    [data-testid="stSidebar"] [data-testid="stIconMaterial"] {
+        margin-top: -1px;
+    }
+
+[data-testid="stSidebarHeader"],
+[data-testid="stSidebarNav"] {
+    display: none;
+}
+
+.stApp,
+header[data-testid="stHeader"] {
+    background: var(--background);
     color: var(--text);
+    color-scheme: var(--color-scheme);
 }
 
-[data-testid="stSidebar"] [data-testid="stIconMaterial"] {
-    margin-top: -1px;
+.stButton > button {
+    background: var(--control) !important;
+    border-color: var(--border) !important;
+    color: var(--text) !important;
 }
 
-[data-testid="stAlert"]:has([data-testid*="Warning"]) p {
-    color: var(--warning-text) !important;
-}
-
-[data-testid="stAlert"]:has([data-testid*="Success"]) p {
-    color: #2e7d32 !important;
-}
+    .stButton > button[kind="primary"] {
+        background: var(--selected) !important;
+        border-color: var(--border) !important;
+        color: var(--selected-text) !important;
+    }
 
 .stHorizontalBlock .stButton > button[kind="primary"] {
     background: #c85c5c !important;
@@ -58,27 +87,9 @@ hr {
     color: #fff !important;
 }
 
-[data-testid="stFileUploaderDropzone"],
-[data-testid="stFileUploaderDropzone"] button,
-.stButton > button {
-    background: var(--control) !important;
-    border-color: var(--border) !important;
-    color: var(--text) !important;
-}
-
-[data-testid="stFileUploaderDropzone"] small,
-[data-testid="stFileUploaderDropzone"] span {
-    color: var(--text) !important;
-}
-
-[data-testid="stFileUploader"] label,
-[data-testid="stFileUploader"] label p {
-    color: var(--text) !important;
-    opacity: 1 !important;
-}
-
-.stButton > button[kind="primary"] {
-    background: var(--selected) !important;
-    border-color: var(--border) !important;
-    color: var(--selected-text) !important;
+hr {
+    border-color: #9aa0a6;
+    border-top: 1px solid #9aa0a6 !important;
+    margin: 5px 0 20px 0 !important;
+    opacity: 1;
 }

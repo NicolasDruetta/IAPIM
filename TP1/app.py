@@ -1,6 +1,7 @@
 import importlib
 import io
 import pages.clase1 as clase1
+import pages.clase2 as clase2
 import streamlit as st
 import utils
 
@@ -9,6 +10,7 @@ from PIL import Image
 
 st.set_page_config(page_title="TP1", layout="wide", initial_sidebar_state="expanded")
 clase1 = importlib.reload(clase1)
+clase2 = importlib.reload(clase2)
 utils = importlib.reload(utils)
 
 cache_dir = Path(__file__).with_name(".cache")
@@ -137,6 +139,7 @@ def home():
 pages = {
     "Inicio": home,
     "Clase 1": clase1.show_class,
+    "Clase 2": clase2.show_class,
 }
 
 if "page" not in st.session_state:
