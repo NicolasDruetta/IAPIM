@@ -16,10 +16,11 @@ def body_home(cache):
         st.session_state.upload_version = 0
 
     uploaded_file = st.file_uploader(
-        "Subir imagen",
+        "Seleccionar imagen",
         type=["jpg", "jpeg", "png"],
         help="Formatos admitidos: JPG, JPEG y PNG.",
         key=f"image_uploader_{st.session_state.upload_version}",
+        label_visibility="collapsed",
     )
 
     if uploaded_file is not None:
@@ -54,4 +55,4 @@ def body_home(cache):
         )
         st.info("Ahora puede elegir una sección desde el menú lateral.")
     else:
-        st.warning("El menú lateral se habilitará después de cargar una imagen.")
+        st.warning("El menú lateral se habilitará tras cargar una imagen.")

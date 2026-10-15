@@ -105,6 +105,7 @@ fn.apply_theme(st.session_state.dark_mode)
 
 with st.sidebar:
     st.divider()
+    st.title("MENÚ")
     image_loaded = "image_bytes" in st.session_state
 
     for page_name in pages:

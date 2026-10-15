@@ -143,12 +143,12 @@ header[data-testid="stHeader"] {
 hr {
     border-top: 1px solid #333 !important;
     border-bottom: none !important;
-    margin: 5px 0 20px 0 !important;
-    opacity: 1;
+    margin: 5px 0 0 0 !important;
+    width: 100%;
 }
 
     hr.divider-alt {
         border-top: 1px solid #777 !important;
+        margin: 0 0 20px 0 !important;
         max-width: 520px;
-        width: 100%;
     }
