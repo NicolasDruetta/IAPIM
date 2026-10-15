@@ -45,8 +45,8 @@ def show_class():
     st.image(image, caption=dimensions, width=768)
 
     st.divider()
-    show_color_channels(image)
-
-    st.divider()
     st.subheader("Escala de grises")
     st.image(image.convert("L"), caption="Imagen en escala de grises", width=768)
+
+    st.divider()
+    show_color_channels(image)

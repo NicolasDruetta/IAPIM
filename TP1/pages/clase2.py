@@ -36,27 +36,50 @@ def show_class():
     st.subheader("Transformación")
     transformation = st.selectbox(
         "Elegí una transformación",
-        ["Sin transformación", "Rotar 90°", "Voltear horizontalmente", "Reducir al 50%"],
-        width="content",
+        [
+            "Sin transformación",
+            "Rotar 90°",
+            "Rotar 180°",
+            "Rotar 270°",
+            "Voltear horizontalmente",
+            "Voltear verticalmente",
+            "Escalar al 25%",
+            "Escalar al 50%",
+            "Escalar al 75%",
+            "Recortar el centro",
+        ],
     )
 
     transformed_image = processed_image
     if transformation == "Rotar 90°":
         transformed_image = processed_image.rotate(90, expand=True)
+    elif transformation == "Rotar 180°":
+        transformed_image = processed_image.rotate(180, expand=True)
+    elif transformation == "Rotar 270°":
+        transformed_image = processed_image.rotate(270, expand=True)
     elif transformation == "Voltear horizontalmente":
         transformed_image = ImageOps.mirror(processed_image)
-    elif transformation == "Reducir al 50%":
+    elif transformation == "Voltear verticalmente":
+        transformed_image = ImageOps.flip(processed_image)
+    elif transformation.startswith("Escalar al"):
+        scale = int(transformation.split()[2].rstrip("%")) / 100
         transformed_image = processed_image.resize(
-            (processed_image.width // 2, processed_image.height // 2)
+            (
+                round(processed_image.width * scale),
+                round(processed_image.height * scale),
+            )
         )
+    elif transformation == "Recortar el centro":
+        left = processed_image.width // 4
+        top = processed_image.height // 4
+        right = processed_image.width - left
+        bottom = processed_image.height - top
+        transformed_image = processed_image.crop((left, top, right, bottom))
 
-    st.image(transformed_image, caption="Resultado de la transformación", width=768)
-
-    st.divider()
-    st.subheader("Análisis")
     width, height = transformed_image.size
-    columns = st.columns(3)
-    columns[0].metric("Ancho", f"{width} px")
-    columns[1].metric("Alto", f"{height} px")
-    columns[2].metric("Canales", len(transformed_image.getbands()))
-
+    display_width = min(width, 768)
+    st.image(
+        transformed_image,
+        caption=f"Resultado de la transformación: {width} x {height} px",
+        width=display_width,
+    )
