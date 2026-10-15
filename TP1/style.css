@@ -1,28 +1,48 @@
-.stApp {
+.stApp,
+header[data-testid="stHeader"] {
     background: var(--background);
     color: var(--text);
     color-scheme: var(--color-scheme);
-}
-
-header[data-testid="stHeader"] {
-    background: var(--background);
 }
 
 [data-testid="stSidebar"] {
     background: var(--sidebar);
 }
 
+[data-testid="stSidebarNav"] {
+    display: none;
+}
+
     [data-testid="stSidebar"] * {
         color: var(--text);
     }
 
-[data-testid="stFileUploaderDropzone"] {
-    background: var(--control);
-    border-color: var(--border);
+[data-testid="stAlert"] {
+    width: fit-content;
+    max-width: 100%;
 }
 
+[data-testid="stAlert"]:has([data-testid*="Warning"]) p {
+    color: var(--warning-text) !important;
+}
+
+[data-testid="stAlert"]:has([data-testid*="Success"]) p {
+    color: #2e7d32 !important;
+}
+
+.stHorizontalBlock:has([data-testid="stAlert"]) {
+    width: fit-content !important;
+}
+
+.stHorizontalBlock .stButton > button[kind="primary"] {
+    background: #c85c5c !important;
+    border-color: transparent !important;
+    color: #fff !important;
+}
+
+[data-testid="stFileUploaderDropzone"],
 [data-testid="stFileUploaderDropzone"] button,
-[data-testid="stFileUploaderDropzone"] button:hover {
+.stButton > button {
     background: var(--control) !important;
     border-color: var(--border) !important;
     color: var(--text) !important;
@@ -33,69 +53,8 @@ header[data-testid="stHeader"] {
     color: var(--text) !important;
 }
 
-[data-testid="stAlert"] {
-    width: fit-content;
-    max-width: 100%;
-    border-radius: 0.5rem;
-}
-
-[data-testid="stAlert"][data-kind="warning"] p,
-[data-testid="stAlert"][kind="warning"] p,
-[data-testid="stAlert"]:has([data-testid*="Warning"]) p {
-    color: var(--warning-text) !important;
-}
-
-[data-testid="stAlert"][data-kind="success"] p,
-[data-testid="stAlert"][kind="success"] p,
-[data-testid="stAlert"]:has([data-testid*="Success"]) p {
-    color: var(--success-text) !important;
-}
-
-[data-testid="stAlert"][data-kind="success"],
-[data-testid="stAlert"][kind="success"],
-[data-testid="stAlert"]:has([data-testid*="Success"]) {
-    border: 1px solid color-mix(in srgb, var(--success-text) 40%, transparent) !important;
-    border-radius: 0.5rem;
-}
-
-[data-testid="stAlert"][data-kind="info"] p,
-[data-testid="stAlert"][kind="info"] p,
-[data-testid="stAlert"]:has([data-testid*="Info"]) p {
-    color: var(--info-text) !important;
-}
-
-[data-testid="stAlert"][data-kind="info"],
-[data-testid="stAlert"][kind="info"],
-[data-testid="stAlert"]:has([data-testid*="Info"]) {
-    border: 1px solid color-mix(in srgb, var(--info-text) 40%, transparent) !important;
-    border-radius: 0.5rem;
-}
-
-.stButton > button,
-.stButton > button:hover {
-    background: var(--control);
-    border-color: var(--border);
-    color: var(--text);
-}
-
-.stButton > button[kind="primary"],
-.stButton > button[kind="primary"]:hover {
+.stButton > button[kind="primary"] {
     background: var(--selected) !important;
-    border-color: color-mix(in srgb, var(--selected-text) 40%, transparent) !important;
+    border-color: var(--border) !important;
     color: var(--selected-text) !important;
 }
-
-.stButton > button:disabled,
-.stButton > button:disabled:hover {
-    background: var(--disabled) !important;
-    border-color: var(--disabled) !important;
-    color: var(--disabled-text) !important;
-    opacity: 1;
-}
-
-.stButton > button [data-testid="stIconMaterial"],
-.stButton > button .material-symbols-rounded {
-    position: relative;
-    top: -1px;
-}
-

@@ -1,4 +1,3 @@
-
 import importlib
 import io
 import pages.clase1 as clase1
@@ -15,6 +14,7 @@ image_cache_dir = Path(__file__).with_name(".cache")
 image_cache_path = image_cache_dir / "last_image"
 image_name_cache_path = image_cache_dir / "last_image_name.txt"
 
+
 def restore_cached_image():
     if "image_bytes" not in st.session_state and image_cache_path.exists():
         st.session_state.image_bytes = image_cache_path.read_bytes()
@@ -24,7 +24,20 @@ def restore_cached_image():
             else "imagen_guardada"
         )
 
+
 restore_cached_image()
+
+
+def clear_image():
+    st.session_state.pop("image_bytes", None)
+    st.session_state.pop("image_name", None)
+    st.session_state.upload_version += 1
+    image_cache_path.unlink(missing_ok=True)
+    image_name_cache_path.unlink(missing_ok=True)
+    st.session_state.page = "Inicio"
+    st.query_params.pop("page", None)
+    st.rerun()
+
 
 def apply_theme(dark_mode):
     """Aplica el tema visual elegido en la barra lateral."""
@@ -70,14 +83,19 @@ def apply_theme(dark_mode):
     )
     st.markdown(f"<style>{variables}{stylesheet}</style>", unsafe_allow_html=True)
 
+
 def home():
     st.title("TP1 - Procesamiento de Imágenes")
     st.write("Cargá una imagen para comenzar a trabajar con el programa.")
+
+    if "upload_version" not in st.session_state:
+        st.session_state.upload_version = 0
 
     uploaded_file = st.file_uploader(
         "Seleccioná una imagen",
         type=["jpg", "jpeg", "png"],
         help="Formatos admitidos: JPG, JPEG y PNG.",
+        key=f"image_uploader_{st.session_state.upload_version}",
     )
 
     if uploaded_file is not None:
@@ -95,11 +113,22 @@ def home():
     if "image_bytes" in st.session_state:
         image = Image.open(io.BytesIO(st.session_state.image_bytes)).convert("RGB")
         dimensions = get_dimensions_text(image)
-        st.success(f"Imagen lista para procesar: {st.session_state.image_name}")
+        status_column, clear_column = st.columns([6, 3])
+        with status_column:
+            st.success(f"Imagen lista para procesar: {st.session_state.image_name}")
+        with clear_column:
+            if st.button(
+                "Eliminar imagen",
+                key="clear_image",
+                help="Eliminar imagen y reiniciar",
+                type="primary",
+            ):
+                clear_image()
         st.image(image, caption=dimensions, width=768)
         st.info("Ahora podés elegir una sección desde el menú lateral.")
     else:
         st.warning("El menú lateral se habilitará después de cargar una imagen.")
+
 
 pages = {
     "Inicio": home,
