@@ -10,17 +10,19 @@ from utils import get_dimensions_text
 st.set_page_config(page_title="TP1", layout="wide", initial_sidebar_state="expanded")
 clase1 = importlib.reload(clase1)
 
-image_cache_dir = Path(__file__).with_name(".cache")
-image_cache_path = image_cache_dir / "last_image"
-image_name_cache_path = image_cache_dir / "last_image_name.txt"
+cache_dir = Path(__file__).with_name(".cache")
+cache_image_name_path = cache_dir / "last_image_name.txt"
+cache_image_path = cache_dir / "last_image"
+cache_page_path = cache_dir / "page.txt"
+cache_theme_path = cache_dir / "theme.txt"
 
 
 def restore_cached_image():
-    if "image_bytes" not in st.session_state and image_cache_path.exists():
-        st.session_state.image_bytes = image_cache_path.read_bytes()
+    if "image_bytes" not in st.session_state and cache_image_path.exists():
+        st.session_state.image_bytes = cache_image_path.read_bytes()
         st.session_state.image_name = (
-            image_name_cache_path.read_text(encoding="utf-8")
-            if image_name_cache_path.exists()
+            cache_image_name_path.read_text(encoding="utf-8")
+            if cache_image_name_path.exists()
             else "imagen_guardada"
         )
 
@@ -32,10 +34,11 @@ def clear_image():
     st.session_state.pop("image_bytes", None)
     st.session_state.pop("image_name", None)
     st.session_state.upload_version += 1
-    image_cache_path.unlink(missing_ok=True)
-    image_name_cache_path.unlink(missing_ok=True)
+    cache_image_path.unlink(missing_ok=True)
+    cache_image_name_path.unlink(missing_ok=True)
     st.session_state.page = "Inicio"
-    st.query_params.pop("page", None)
+    cache_dir.mkdir(exist_ok=True)
+    cache_page_path.write_text("Inicio", encoding="utf-8")
     st.rerun()
 
 
@@ -105,9 +108,9 @@ def home():
             # mientras navego por las distintas secciones.
             st.session_state.image_bytes = image_bytes
             st.session_state.image_name = uploaded_file.name
-            image_cache_dir.mkdir(exist_ok=True)
-            image_cache_path.write_bytes(image_bytes)
-            image_name_cache_path.write_text(uploaded_file.name, encoding="utf-8")
+            cache_dir.mkdir(exist_ok=True)
+            cache_image_path.write_bytes(image_bytes)
+            cache_image_name_path.write_text(uploaded_file.name, encoding="utf-8")
             st.rerun()
 
     if "image_bytes" in st.session_state:
@@ -134,8 +137,15 @@ pages = {
 }
 
 if "page" not in st.session_state:
-    selected_page = st.query_params.get("page", "Inicio")
+    selected_page = (
+        cache_page_path.read_text(encoding="utf-8")
+        if cache_page_path.exists()
+        else "Inicio"
+    )
     st.session_state.page = selected_page if selected_page in pages else "Inicio"
+
+if st.query_params:
+    st.query_params.clear()
 
 with st.sidebar:
     st.title("IAPIM")
@@ -146,7 +156,12 @@ with st.sidebar:
     """)
 
     if "dark_mode" not in st.session_state:
-        st.session_state.dark_mode = st.query_params.get("theme", "light") == "dark"
+        saved_theme = (
+            cache_theme_path.read_text(encoding="utf-8")
+            if cache_theme_path.exists()
+            else "light"
+        )
+        st.session_state.dark_mode = saved_theme == "dark"
 
     if st.session_state.dark_mode:
         if st.button(
@@ -155,7 +170,8 @@ with st.sidebar:
             key="light_button",
         ):
             st.session_state.dark_mode = False
-            st.query_params["theme"] = "light"
+            cache_dir.mkdir(exist_ok=True)
+            cache_theme_path.write_text("light", encoding="utf-8")
             st.rerun()
     elif st.button(
         "Dark mode",
@@ -163,7 +179,8 @@ with st.sidebar:
         key="dark_button",
     ):
         st.session_state.dark_mode = True
-        st.query_params["theme"] = "dark"
+        cache_dir.mkdir(exist_ok=True)
+        cache_theme_path.write_text("dark", encoding="utf-8")
         st.rerun()
 
 apply_theme(st.session_state.dark_mode)
@@ -181,7 +198,8 @@ with st.sidebar:
             disabled=page_name != "Inicio" and not image_loaded,
         ):
             st.session_state.page = page_name
-            st.query_params["page"] = page_name
+            cache_dir.mkdir(exist_ok=True)
+            cache_page_path.write_text(page_name, encoding="utf-8")
             st.rerun()
 
 pages[st.session_state.page]()
