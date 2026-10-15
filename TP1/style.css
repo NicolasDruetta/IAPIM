@@ -3,8 +3,16 @@
     width: fit-content;
 }
 
+    [data-testid="stAlert"] [data-testid="stMarkdownContainer"] p {
+        color: var(--text) !important;
+    }
+
+    [data-testid="stAlert"]:has([data-testid*="Info"]) p {
+        color: var(--info-text) !important;
+    }
+
     [data-testid="stAlert"]:has([data-testid*="Success"]) p {
-        color: #2e7d32 !important;
+        color: var(--success-text) !important;
     }
 
     [data-testid="stAlert"]:has([data-testid*="Warning"]) p {
@@ -67,6 +75,34 @@
     width: fit-content !important;
 }
 
+    [data-testid="stSelectbox"] [role="combobox"],
+    [data-testid="stSelectbox"] [data-baseweb="select"] > div {
+        background-color: var(--control) !important;
+        border-color: var(--border) !important;
+        color: var(--text) !important;
+    }
+
+        [data-testid="stSelectbox"] label,
+        [data-testid="stSelectbox"] label p,
+        [data-testid="stSelectbox"] [role="combobox"] input {
+            color: var(--text) !important;
+            opacity: 1 !important;
+        }
+
+[role="listbox"],
+[role="option"],
+[data-baseweb="menu"],
+[data-baseweb="popover"] {
+    background-color: var(--control) !important;
+    color: var(--text) !important;
+}
+
+    [role="option"]:hover,
+    [role="option"][aria-selected="true"] {
+        background-color: var(--selected) !important;
+        color: var(--selected-text) !important;
+    }
+
 .stApp,
 header[data-testid="stHeader"] {
     background: var(--background);
@@ -93,8 +129,14 @@ header[data-testid="stHeader"] {
 }
 
 hr {
-    border-color: #9aa0a6;
-    border-top: 1px solid #9aa0a6 !important;
+    border-top: 1px solid #333 !important;
+    border-bottom: none !important;
     margin: 5px 0 20px 0 !important;
     opacity: 1;
 }
+
+    hr.divider-alt {
+        border-top: 1px solid #777 !important;
+        max-width: 520px;
+        width: 100%;
+    }

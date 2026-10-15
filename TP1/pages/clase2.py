@@ -1,39 +1,39 @@
 import io
+import functions as fn
 import streamlit as st
-import utils
 
 from PIL import Image, ImageEnhance, ImageOps
 
-def show_class():
-    utils.title(
-        "Clase 2 - Flujo de trabajo",
-        "Cargue, preprocese, transforme y analice la imagen.",
+def body_class2():
+    st.title("Clase 2 - Flujo de trabajo")
+
+    fn.st_subheader(
+        "Imagen original",
+        "Muestra la imagen cargada antes de procesarla.",
     )
-
-    if "image_bytes" not in st.session_state:
-        st.warning("Primero cargue una imagen desde Inicio.")
-        return
-
     image = Image.open(io.BytesIO(st.session_state.image_bytes)).convert("RGB")
+    fn.show_original_image(image, st.session_state.image_name)
 
-    st.subheader("Imagen de entrada")
-    st.image(image, caption=st.session_state.image_name, width=768)
-
-    st.divider()
-    st.subheader("Preprocesamiento")
+    fn.st_subheader(
+        "Preprocesamiento",
+        "Permite preparar la imagen antes de aplicar transformaciones.",
+    )
     grayscale = st.checkbox("Convertir a escala de grises")
     enhance_contrast = st.checkbox("Mejorar contraste")
-
     processed_image = image
     if grayscale:
         processed_image = processed_image.convert("L").convert("RGB")
     if enhance_contrast:
         processed_image = ImageEnhance.Contrast(processed_image).enhance(1.5)
+    fn.st_image(
+        processed_image,
+        caption="Resultado del preprocesamiento",
+    )
 
-    st.image(processed_image, caption="Resultado del preprocesamiento", width=768)
-
-    st.divider()
-    st.subheader("Transformación")
+    fn.st_subheader(
+        "Transformación",
+        "Permite cambiar la posición, el sentido o el tamaño de la imagen.",
+    )
     transformation = st.selectbox(
         "Elija una transformación",
         [
@@ -77,9 +77,7 @@ def show_class():
         transformed_image = processed_image.crop((left, top, right, bottom))
 
     width, height = transformed_image.size
-    display_width = min(width, 768)
-    st.image(
+    fn.st_image(
         transformed_image,
         caption=f"Resultado de la transformación: {width} x {height} px",
-        width=display_width,
     )
