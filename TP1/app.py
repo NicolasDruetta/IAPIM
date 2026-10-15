@@ -93,14 +93,14 @@ def apply_theme(dark_mode):
 def home():
     utils.title(
         "TP1 - Procesamiento de Imágenes",
-        "Cargá una imagen para comenzar a trabajar con el programa.",
+        "Cargue una imagen para comenzar a trabajar con el programa.",
     )
 
     if "upload_version" not in st.session_state:
         st.session_state.upload_version = 0
 
     uploaded_file = st.file_uploader(
-        "Seleccioná una imagen",
+        "Seleccione una imagen",
         type=["jpg", "jpeg", "png"],
         help="Formatos admitidos: JPG, JPEG y PNG.",
         key=f"image_uploader_{st.session_state.upload_version}",
@@ -131,7 +131,7 @@ def home():
             ):
                 clear_image()
         st.image(image, caption=dimensions, width=768)
-        st.info("Ahora podés elegir una sección desde el menú lateral.")
+        st.info("Ahora puede elegir una sección desde el menú lateral.")
     else:
         st.warning("El menú lateral se habilitará después de cargar una imagen.")
 

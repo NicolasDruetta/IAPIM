@@ -7,11 +7,11 @@ from PIL import Image, ImageEnhance, ImageOps
 def show_class():
     utils.title(
         "Clase 2 - Flujo de trabajo",
-        "Cargá, preprocesá, transformá y analizá la imagen.",
+        "Cargue, preprocese, transforme y analice la imagen.",
     )
 
     if "image_bytes" not in st.session_state:
-        st.warning("Primero cargá una imagen desde Inicio.")
+        st.warning("Primero cargue una imagen desde Inicio.")
         return
 
     image = Image.open(io.BytesIO(st.session_state.image_bytes)).convert("RGB")
@@ -35,7 +35,7 @@ def show_class():
     st.divider()
     st.subheader("Transformación")
     transformation = st.selectbox(
-        "Elegí una transformación",
+        "Elija una transformación",
         [
             "Sin transformación",
             "Rotar 90°",

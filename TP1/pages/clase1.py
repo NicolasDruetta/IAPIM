@@ -28,11 +28,11 @@ def show_color_channels(image):
 def show_class():
     utils.title(
         "Clase 1 - Introducción al procesamiento de imágenes",
-        "Analizá la imagen cargada con herramientas básicas.",
+        "Analice la imagen cargada con herramientas básicas.",
     )
 
     if "image_bytes" not in st.session_state:
-        st.warning("Primero cargá una imagen desde Inicio.")
+        st.warning("Primero cargue una imagen desde Inicio.")
         return
 
     image = Image.open(io.BytesIO(st.session_state.image_bytes)).convert("RGB")
