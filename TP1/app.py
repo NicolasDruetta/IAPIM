@@ -1,11 +1,30 @@
 
+import importlib
 import io
+import pages.clase1 as clase1
 import streamlit as st
 
 from pathlib import Path
 from PIL import Image
+from utils import get_dimensions_text
 
 st.set_page_config(page_title="TP1", layout="wide", initial_sidebar_state="expanded")
+clase1 = importlib.reload(clase1)
+
+image_cache_dir = Path(__file__).with_name(".cache")
+image_cache_path = image_cache_dir / "last_image"
+image_name_cache_path = image_cache_dir / "last_image_name.txt"
+
+def restore_cached_image():
+    if "image_bytes" not in st.session_state and image_cache_path.exists():
+        st.session_state.image_bytes = image_cache_path.read_bytes()
+        st.session_state.image_name = (
+            image_name_cache_path.read_text(encoding="utf-8")
+            if image_name_cache_path.exists()
+            else "imagen_guardada"
+        )
+
+restore_cached_image()
 
 def apply_theme(dark_mode):
     """Aplica el tema visual elegido en la barra lateral."""
@@ -62,37 +81,34 @@ def home():
     )
 
     if uploaded_file is not None:
-        # Guardo los bytes en session_state para conservar la imagen
-        # mientras navego por las distintas secciones.
-        st.session_state.image_bytes = uploaded_file.getvalue()
-        st.session_state.image_name = uploaded_file.name
+        image_bytes = uploaded_file.getvalue()
+        if image_bytes != st.session_state.get("image_bytes"):
+            # Guardo los bytes en session_state para conservar la imagen
+            # mientras navego por las distintas secciones.
+            st.session_state.image_bytes = image_bytes
+            st.session_state.image_name = uploaded_file.name
+            image_cache_dir.mkdir(exist_ok=True)
+            image_cache_path.write_bytes(image_bytes)
+            image_name_cache_path.write_text(uploaded_file.name, encoding="utf-8")
+            st.rerun()
 
     if "image_bytes" in st.session_state:
         image = Image.open(io.BytesIO(st.session_state.image_bytes)).convert("RGB")
+        dimensions = get_dimensions_text(image)
         st.success(f"Imagen lista para procesar: {st.session_state.image_name}")
-        st.image(image, caption="Imagen de trabajo", use_container_width=True)
+        st.image(image, caption=dimensions, width=768)
         st.info("Ahora podés elegir una sección desde el menú lateral.")
     else:
         st.warning("El menú lateral se habilitará después de cargar una imagen.")
 
-def process_image():
-    st.title("Procesar imagen")
-
-def compare_images():
-    st.title("Comparar imágenes")
-
-def about():
-    st.title("Acerca del proyecto")
-
 pages = {
     "Inicio": home,
-    "Procesar imagen": process_image,
-    "Comparar imágenes": compare_images,
-    "Acerca del proyecto": about,
+    "Clase 1": clase1.show_class,
 }
 
 if "page" not in st.session_state:
-    st.session_state.page = "Inicio"
+    selected_page = st.query_params.get("page", "Inicio")
+    st.session_state.page = selected_page if selected_page in pages else "Inicio"
 
 with st.sidebar:
     st.title("IAPIM")
@@ -106,11 +122,19 @@ with st.sidebar:
         st.session_state.dark_mode = st.query_params.get("theme", "light") == "dark"
 
     if st.session_state.dark_mode:
-        if st.button("☀️ Light mode", key="light_button"):
+        if st.button(
+            "Light mode",
+            icon=":material/light_mode:",
+            key="light_button",
+        ):
             st.session_state.dark_mode = False
             st.query_params["theme"] = "light"
             st.rerun()
-    elif st.button("🌙 Dark mode", key="dark_button"):
+    elif st.button(
+        "Dark mode",
+        icon=":material/dark_mode:",
+        key="dark_button",
+    ):
         st.session_state.dark_mode = True
         st.query_params["theme"] = "dark"
         st.rerun()
@@ -130,6 +154,7 @@ with st.sidebar:
             disabled=page_name != "Inicio" and not image_loaded,
         ):
             st.session_state.page = page_name
+            st.query_params["page"] = page_name
             st.rerun()
 
 pages[st.session_state.page]()

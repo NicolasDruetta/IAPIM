@@ -36,6 +36,7 @@ header[data-testid="stHeader"] {
 [data-testid="stAlert"] {
     width: fit-content;
     max-width: 100%;
+    border-radius: 0.5rem;
 }
 
 [data-testid="stAlert"][data-kind="warning"] p,
@@ -50,10 +51,24 @@ header[data-testid="stHeader"] {
     color: var(--success-text) !important;
 }
 
+[data-testid="stAlert"][data-kind="success"],
+[data-testid="stAlert"][kind="success"],
+[data-testid="stAlert"]:has([data-testid*="Success"]) {
+    border: 1px solid color-mix(in srgb, var(--success-text) 40%, transparent) !important;
+    border-radius: 0.5rem;
+}
+
 [data-testid="stAlert"][data-kind="info"] p,
 [data-testid="stAlert"][kind="info"] p,
 [data-testid="stAlert"]:has([data-testid*="Info"]) p {
     color: var(--info-text) !important;
+}
+
+[data-testid="stAlert"][data-kind="info"],
+[data-testid="stAlert"][kind="info"],
+[data-testid="stAlert"]:has([data-testid*="Info"]) {
+    border: 1px solid color-mix(in srgb, var(--info-text) 40%, transparent) !important;
+    border-radius: 0.5rem;
 }
 
 .stButton > button,
@@ -66,7 +81,7 @@ header[data-testid="stHeader"] {
 .stButton > button[kind="primary"],
 .stButton > button[kind="primary"]:hover {
     background: var(--selected) !important;
-    border-color: var(--selected) !important;
+    border-color: color-mix(in srgb, var(--selected-text) 40%, transparent) !important;
     color: var(--selected-text) !important;
 }
 
@@ -76,5 +91,11 @@ header[data-testid="stHeader"] {
     border-color: var(--disabled) !important;
     color: var(--disabled-text) !important;
     opacity: 1;
+}
+
+.stButton > button [data-testid="stIconMaterial"],
+.stButton > button .material-symbols-rounded {
+    position: relative;
+    top: -1px;
 }
 
