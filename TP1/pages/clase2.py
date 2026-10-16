@@ -10,7 +10,12 @@ from skimage import color, filters, transform
 def body_class2():
     st.title("Clase 2: Herramientas y Bibliotecas")
 
+    fn.st_subheader(
+        "Imagen original",
+        "Muestra la imagen cargada sin aplicar modificaciones.",
+    )
     image = Image.open(io.BytesIO(st.session_state.image_bytes)).convert("RGB")
+    fn.show_original_image(image, st.session_state.image_name)
 
     fn.st_subheader(
         "Pillow",
