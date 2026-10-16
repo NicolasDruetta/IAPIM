@@ -40,7 +40,7 @@ def apply_theme(dark_mode):
             "--color-scheme": "light",
         }
 
-    stylesheet_path = Path(__file__).with_name("custom.css")
+    stylesheet_path = Path(__file__).parent / "assets" / "custom.css"
     stylesheet = stylesheet_path.read_text(encoding="utf-8")
 
     variables = (
@@ -172,8 +172,6 @@ def scroll_to_top():
             };
 
             scrollTop();
-            window.setTimeout(scrollTop, 100);
-            window.setTimeout(scrollTop, 300);
         </script>
         """
     st.components.v1.html(
