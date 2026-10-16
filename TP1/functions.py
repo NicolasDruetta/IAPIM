@@ -144,11 +144,19 @@ def show_original_image(image, image_name):
     st_image(image, caption=caption)
 
 def scroll_to_top():
-    st.components.v1.html(
-        """
+    scroll_id = st.session_state.get("scroll_id", 0) + 1
+    st.session_state.scroll_id = scroll_id
+
+    html = f"<!-- scroll-navigation-{scroll_id} -->" + """
         <script>
             const scrollTop = () => {
                 const document = window.parent.document;
+                const pageTop = document.querySelector("#page-top");
+
+                if (pageTop) {
+                    pageTop.scrollIntoView({top: 0, left: 0, behavior: "auto"});
+                }
+
                 const targets = [
                     window.parent,
                     document.documentElement,
@@ -167,7 +175,9 @@ def scroll_to_top():
             window.setTimeout(scrollTop, 100);
             window.setTimeout(scrollTop, 300);
         </script>
-        """,
+        """
+    st.components.v1.html(
+        html,
         height=1,
     )
 

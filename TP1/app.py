@@ -122,6 +122,7 @@ with st.sidebar:
             cache.page_path.write_text(page_name, encoding="utf-8")
             st.rerun()
 
+st.markdown('<div id="page-top"></div>', unsafe_allow_html=True)
 pages[st.session_state.page]()
 
 if st.session_state.pop("scroll_to_top", False):
