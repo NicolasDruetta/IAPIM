@@ -1,8 +1,10 @@
-import io
+import cv2
 import functions as fn
+import io
+import numpy as np
 import streamlit as st
 
-from PIL import Image, ImageFilter
+from PIL import Image
 
 def body_class3():
     st.title("Clase 3: Streamlit")
@@ -18,24 +20,32 @@ def body_class3():
         "Filtro",
         "Elija una opción para modificar o resaltar partes de la imagen.",
     )
-    filter_name = st.selectbox(
+    filter_name = st.radio(
         "Elija un filtro",
         [
             "Imagen original",
             "Escala de grises",
-            "Desenfoque gaussiano",
-            "Detección de bordes",
+            "Suavizado (Blur)",
+            "Detección de bordes (Canny)",
         ],
+        horizontal=True,
     )
 
-    filtered_image = image
+    image_array = np.array(image)
+    filtered_image = image_array
+    filter_codex = "image_array"
+
     if filter_name == "Escala de grises":
-        filtered_image = image.convert("L").convert("RGB")
-    elif filter_name == "Desenfoque gaussiano":
-        filtered_image = image.filter(ImageFilter.GaussianBlur(radius=2))
-    elif filter_name == "Detección de bordes":
-        filtered_image = image.convert("L").filter(ImageFilter.FIND_EDGES)
+        filtered_image = cv2.cvtColor(image_array, cv2.COLOR_RGB2GRAY)
+        filter_codex = ("cv2.cvtColor(image_array, cv2.COLOR_RGB2GRAY)")
+    elif filter_name == "Suavizado (Blur)":
+        filtered_image = cv2.GaussianBlur(image_array, (15, 15), 0)
+        filter_codex = ("cv2.GaussianBlur(image_array, (15, 15), 0)")
+    elif filter_name == "Detección de bordes (Canny)":
+        gray_image = cv2.cvtColor(image_array, cv2.COLOR_RGB2GRAY)
+        filtered_image = cv2.Canny(gray_image, 100, 200)
+        filter_codex = ("cv2.cvtColor(image_array, cv2.COLOR_RGB2GRAY); cv2.Canny(gray_image, 100, 200)")
     fn.st_image(
         filtered_image,
-        caption=f"Resultado: {filter_name}",
+        caption=filter_codex,
     )

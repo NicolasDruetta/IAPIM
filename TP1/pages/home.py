@@ -53,6 +53,6 @@ def body_home(cache):
             image,
             caption=caption,
         )
-        st.info("Ahora puede elegir una sección desde el menú lateral.")
+        st.info("Ahora puede elegir una sección del menú lateral.")
     else:
         st.warning("El menú lateral se habilitará tras cargar una imagen.")

@@ -5,7 +5,6 @@ import streamlit as st
 from pathlib import Path
 
 def apply_theme(dark_mode):
-    """Aplica el tema visual elegido en la barra lateral."""
     if dark_mode:
         theme_variables = {
             "--background": "#0E1117",
