@@ -19,33 +19,49 @@
         color: var(--warning-text) !important;
     }
 
+.stApp,
+.stAppHeader {
+    background: var(--background);
+    color: var(--text);
+    color-scheme: var(--color-scheme);
+}
+
+.stButton > button {
+    background: var(--control) !important;
+    border-color: var(--border) !important;
+    color: var(--text) !important;
+}
+
+    .stButton > button[kind="primary"] {
+        background: var(--selected) !important;
+        border-color: var(--border) !important;
+        color: var(--selected-text) !important;
+    }
+
+.stImage p {
+    font-size: 0.95rem;
+}
+
 .stFileUploader label,
 .stFileUploader label p {
     color: var(--text) !important;
     opacity: 1 !important;
 }
 
-[data-testid="stFileUploaderDropzone"],
-[data-testid="stFileUploaderDropzone"] button {
-    background: var(--control) !important;
-    border-color: var(--border) !important;
-    color: var(--text) !important;
+.stHorizontalBlock .stButton > button[kind="primary"] {
+    background: #c85c5c !important;
+    border-color: transparent !important;
+    color: #fff !important;
 }
-
-    [data-testid="stFileUploaderDropzone"] small,
-    [data-testid="stFileUploaderDropzone"] span {
-        color: var(--text) !important;
-    }
 
 .stImage {
     border: none !important;
     padding: 0 !important;
 }
 
-[data-testid="stImageContainer"] img {
-    border: 1px solid #9aa0a6 !important;
-    border-radius: 0.25rem !important;
-    display: block !important;
+.stMainBlockContainer,
+[data-testid="stSidebarContent"] {
+    padding-top: 1.5rem !important;
 }
 
 .stRadio label,
@@ -53,11 +69,6 @@
 .stRadio label span,
 .stRadio [role="radio"] {
     color: var(--text) !important;
-}
-
-.stMainBlockContainer,
-[data-testid="stSidebarContent"] {
-    padding-top: 1.5rem !important;
 }
 
 .stSidebar {
@@ -72,9 +83,22 @@
         margin-top: -1px;
     }
 
-[data-testid="stSidebarHeader"],
-[data-testid="stSidebarNav"] {
-    display: none;
+[data-testid="stFileUploaderDropzone"],
+[data-testid="stFileUploaderDropzone"] button {
+    background: var(--control) !important;
+    border-color: var(--border) !important;
+    color: var(--text) !important;
+}
+
+    [data-testid="stFileUploaderDropzone"] small,
+    [data-testid="stFileUploaderDropzone"] span {
+        color: var(--text) !important;
+    }
+
+[data-testid="stImageContainer"] img {
+    border: 1px solid #9aa0a6 !important;
+    border-radius: 0.25rem !important;
+    display: block !important;
 }
 
 [data-testid="stSelectbox"] {
@@ -94,6 +118,11 @@
             color: var(--text) !important;
             opacity: 1 !important;
         }
+
+[data-testid="stSidebarHeader"],
+[data-testid="stSidebarNav"] {
+    display: none;
+}
 
 [data-testid="stTable"] > div {
     border: 1px solid var(--table-border) !important;
@@ -120,31 +149,6 @@
         background-color: var(--selected) !important;
         color: var(--selected-text) !important;
     }
-
-.stApp,
-header.stAppHeader {
-    background: var(--background);
-    color: var(--text);
-    color-scheme: var(--color-scheme);
-}
-
-.stButton > button {
-    background: var(--control) !important;
-    border-color: var(--border) !important;
-    color: var(--text) !important;
-}
-
-    .stButton > button[kind="primary"] {
-        background: var(--selected) !important;
-        border-color: var(--border) !important;
-        color: var(--selected-text) !important;
-    }
-
-.stHorizontalBlock .stButton > button[kind="primary"] {
-    background: #c85c5c !important;
-    border-color: transparent !important;
-    color: #fff !important;
-}
 
 hr {
     border-top: 1px solid #333 !important;

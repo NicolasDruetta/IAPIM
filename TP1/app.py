@@ -117,8 +117,12 @@ with st.sidebar:
             disabled=page_name != "Inicio" and not image_loaded,
         ):
             st.session_state.page = page_name
+            st.session_state.scroll_to_top = True
             cache.dir.mkdir(exist_ok=True)
             cache.page_path.write_text(page_name, encoding="utf-8")
             st.rerun()
 
 pages[st.session_state.page]()
+
+if st.session_state.pop("scroll_to_top", False):
+    fn.scroll_to_top()

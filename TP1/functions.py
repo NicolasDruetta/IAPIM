@@ -41,7 +41,7 @@ def apply_theme(dark_mode):
             "--color-scheme": "light",
         }
 
-    stylesheet_path = Path(__file__).with_name("style.css")
+    stylesheet_path = Path(__file__).with_name("custom.css")
     stylesheet = stylesheet_path.read_text(encoding="utf-8")
 
     variables = (
@@ -143,6 +143,34 @@ def show_color_channels(image):
 def show_original_image(image, image_name):
     caption = get_image_caption(image, image_name)
     st_image(image, caption=caption)
+
+def scroll_to_top():
+    st.components.v1.html(
+        """
+        <script>
+            const scrollTop = () => {
+                const document = window.parent.document;
+                const targets = [
+                    window.parent,
+                    document.documentElement,
+                    document.body,
+                    document.querySelector(".stMain"),
+                    document.querySelector(".stAppViewContainer"),
+                ];
+                targets.forEach((target) => {
+                    if (target) {
+                        target.scrollTo({top: 0, left: 0, behavior: "auto"});
+                    }
+                });
+            };
+
+            scrollTop();
+            window.setTimeout(scrollTop, 100);
+            window.setTimeout(scrollTop, 300);
+        </script>
+        """,
+        height=1,
+    )
 
 def st_image(image, caption=None, width=None):
     if width is None:
