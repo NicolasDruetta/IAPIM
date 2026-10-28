@@ -1,16 +1,19 @@
 import streamlit as st
 
-from functions import home
 
+st.set_page_config(page_title="IAPIM - Vision Lab", layout="wide")
+st.set_option("client.showSidebarNavigation", False)
 
-st.set_page_config(page_title="IAPIM Vision Lab", layout="wide")
-detector_facial_page = st.Page(
-    "pages/01_detector_facial.py",
-    title="01 – Detector facial",
-)
-home_page = st.Page(home, title="Home", default=True)
-selected_page = st.navigation(
-    [home_page, detector_facial_page],
-    position="hidden",
-)
-selected_page.run()
+st.title("IAPIM - Vision Lab")
+st.subheader("Laboratorio de Visión Artificial y Procesamiento de Imágenes.")
+st.write("Autor: Nicolás Druetta. Año: 2026.")
+
+with st.container(border=True):
+    st.page_link(
+        "pages/01_detector_facial.py",
+        label=(
+            "**01 – Detector facial**\n\n"
+            "Capturá una fotografía con la cámara y detectá los rostros presentes"
+        ),
+        width="stretch",
+    )
