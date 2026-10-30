@@ -106,20 +106,19 @@ def run_detection(image_bytes):
 
 configure_page("IAPIM - Detector de objetos")
 
-title_column, home_column = st.columns([5, 1])
-
-with title_column:
+with st.container(
+    horizontal=True,
+    vertical_alignment="center",
+    gap="small",
+    width="content",
+):
     st.title("02 – Detector de objetos")
-    st.write(
-        "Suba una imagen para segmentar y localizar objetos visualmente separables."
-    )
+    if st.button("Volver al Inicio", width="content"):
+        st.switch_page("main.py")
 
-with home_column:
-    with st.container(horizontal_alignment="right"):
-        st.write("")
-        st.write("")
-        if st.button("Volver al Inicio", width="content"):
-            st.switch_page("main.py")
+st.write(
+    "Suba una imagen para segmentar y localizar objetos visualmente separables."
+)
 
 if "object_detection_error" not in st.session_state:
     st.session_state.object_detection_error = None

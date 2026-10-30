@@ -70,18 +70,17 @@ def fit_result_image(image_rgb):
 
 configure_page("IAPIM - Vision Lab")
 
-title_column, home_column = st.columns([5, 1])
-
-with title_column:
+with st.container(
+    horizontal=True,
+    vertical_alignment="center",
+    gap="small",
+    width="content",
+):
     st.title("01 – Detector facial")
-    st.write("Capture una fotografía y analícela para detectar rostros.")
+    if st.button("Volver al Inicio", width="content"):
+        st.switch_page("main.py")
 
-with home_column:
-    with st.container(horizontal_alignment="right"):
-        st.write("")
-        st.write("")
-        if st.button("Volver al Inicio", width="content"):
-            st.switch_page("main.py")
+st.write("Capture una fotografía y analícela para detectar rostros.")
 
 if "camera_key" not in st.session_state:
     st.session_state.camera_key = 0

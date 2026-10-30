@@ -18,20 +18,19 @@ gallery_images = sorted(
 
 configure_page("IAPIM - Estacionamiento inteligente")
 
-title_column, home_column = st.columns([5, 1])
-
-with title_column:
+with st.container(
+    horizontal=True,
+    vertical_alignment="center",
+    gap="small",
+    width="content",
+):
     st.title("03 – Estacionamiento inteligente")
-    st.write(
-        "Seleccione una imagen de la galería para analizar las plazas de estacionamiento."
-    )
+    if st.button("Volver al Inicio", width="content"):
+        st.switch_page("main.py")
 
-with home_column:
-    with st.container(horizontal_alignment="right"):
-        st.write("")
-        st.write("")
-        if st.button("Volver al Inicio", width="content"):
-            st.switch_page("main.py")
+st.write(
+    "Seleccione una imagen de la galería para analizar las plazas de estacionamiento."
+)
 
 left_column, right_column = st.columns([1, 1], gap="large")
 
