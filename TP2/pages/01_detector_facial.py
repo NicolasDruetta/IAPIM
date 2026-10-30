@@ -77,10 +77,11 @@ with title_column:
     st.write("Capture una fotografía y analícela para detectar rostros.")
 
 with home_column:
-    st.write("")
-    st.write("")
-    if st.button("Volver al Inicio", width="stretch"):
-        st.switch_page("main.py")
+    with st.container(horizontal_alignment="right"):
+        st.write("")
+        st.write("")
+        if st.button("Volver al Inicio", width="content"):
+            st.switch_page("main.py")
 
 if "camera_key" not in st.session_state:
     st.session_state.camera_key = 0
@@ -92,8 +93,6 @@ if "detection_result" not in st.session_state:
     st.session_state.detection_result = None
 if "face_count" not in st.session_state:
     st.session_state.face_count = 0
-
-empty_result_image = np.full((400, 640, 3), 45, dtype=np.uint8)
 
 left_column, right_column = st.columns([1, 1], gap="large")
 
@@ -137,7 +136,8 @@ with right_column:
     if st.session_state.detection_error:
         st.error(st.session_state.detection_error)
     elif st.session_state.detection_result is None:
-        st.image(empty_result_image, width="stretch")
+        with st.container(height=400, border=True):
+            st.write("")
     else:
         st.image(
             fit_result_image(st.session_state.detection_result),

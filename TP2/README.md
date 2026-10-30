@@ -18,11 +18,14 @@ Estas técnicas tienen aplicaciones prácticas en sistemas de asistencia, inspec
 
 - Python 3.15.
 - Streamlit 1.66.0 para la interfaz multipágina.
-- OpenCV Headless 4.14.0.94 para lectura, transformación y procesamiento de imágenes.
+- OpenCV 5.0.0.93 para lectura y transformación de imágenes.
 - NumPy 2.5.4 para representar imágenes y realizar operaciones matriciales.
+- PyTorch 2.15.0 como motor de inferencia de aprendizaje profundo.
+- Torchvision 0.29.2 como dependencia de visión de PyTorch.
+- Ultralytics 8.4.193 para ejecutar modelos YOLO.
 - `pathlib`, incluida en la biblioteca estándar de Python, para resolver rutas de recursos.
 
-El archivo `requirements.txt` también conserva dependencias disponibles para el entorno académico general: Matplotlib, pandas, Pillow y scikit-image. La implementación actual de TP2 utiliza directamente Streamlit, OpenCV, NumPy y `pathlib`.
+El archivo `requirements.txt` también conserva dependencias disponibles para el entorno académico general: Matplotlib, pandas, Pillow y scikit-image. La implementación actual de TP2 utiliza directamente Streamlit, OpenCV, NumPy, Pillow, PyTorch, Torchvision, Ultralytics y `pathlib`.
 
 ## Arquitectura
 
@@ -42,6 +45,7 @@ TP2/
 │       └── 03_estacionamiento_inteligente/
 ├── functions.py
 ├── main.py
+├── yolo11n.pt
 ├── pages/
 │   ├── 01_detector_facial.py
 │   ├── 02_detector_de_objetos.py
@@ -67,17 +71,29 @@ TP2/
 
 ### 02 – Detector de objetos
 
-**Objetivo:** localizar objetos visualmente separables en una imagen, sin asignarles categorías semánticas.
+**Objetivo:** detectar objetos reconocidos por un modelo general preentrenado y mostrar sus categorías con sus niveles de confianza.
 
 **Entrada:** una imagen cargada desde la computadora mediante `st.file_uploader()` o una imagen precargada de `assets/images/02_detector_de_objetos/`.
 
-**Funcionamiento:** la imagen se convierte a escala de grises, se suaviza con un desenfoque gaussiano, se binariza mediante el método de Otsu y se limpia con operaciones morfológicas. Luego se obtienen los contornos externos y se descartan las regiones con un área inferior al umbral definido por el tamaño de la imagen.
+**Funcionamiento:** la imagen se entrega a YOLO11n, un modelo de detección general preentrenado sobre el conjunto de datos COCO. El modelo devuelve las cajas delimitadoras, las categorías y las confianzas de cada detección. La inferencia utiliza Apple Metal Performance Shaders (MPS) cuando está disponible y CPU como alternativa.
 
-**Algoritmos:** escala de grises, desenfoque gaussiano, umbralización de Otsu, apertura y cierre morfológicos, detección de contornos y rectángulos delimitadores.
+**Algoritmos:** inferencia de detección de objetos mediante YOLO11n y representación de cajas delimitadoras mediante Ultralytics.
 
-**Resultados:** la aplicación muestra la imagen procesada con rectángulos verdes y el total de regiones detectadas.
+**Resultados:** la aplicación muestra la imagen procesada con rectángulos, categoría y confianza de cada detección. También informa la cantidad total y el recuento agrupado por categoría.
 
-**Limitaciones:** el método está orientado a objetos separables del fondo. Puede agrupar objetos cercanos, dividir un mismo objeto o detectar regiones irrelevantes cuando cambian la iluminación, el contraste, el fondo o la escala.
+**Modelo y procedencia:** se utiliza `yolo11n.pt`, distribuido por Ultralytics como modelo preentrenado para detección general. El paquete Ultralytics se distribuye bajo licencia AGPL-3.0 y el modelo se basa en las categorías de COCO. El archivo de pesos debe conservarse junto a `main.py` para que la aplicación pueda cargarlo de forma local.
+
+**Resultados de validación:** con un umbral de confianza de 0.25, las cinco imágenes precargadas produjeron los siguientes resultados:
+
+| Imagen | Detecciones | Categorías observadas |
+| --- | ---: | --- |
+| `01.jpg` | 4 | cake (4) |
+| `02.jpg` | 0 | ninguna |
+| `03.jpg` | 2 | clock (1), cell phone (1) |
+| `04.jpg` | 1 | cell phone (1) |
+| `05.jpg` | 4 | potted plant (1), scissors (3) |
+
+**Limitaciones:** las imágenes precargadas contienen figuras geométricas sintéticas que no representan necesariamente las categorías de COCO. Por esa razón, YOLO puede no detectar objetos, asignar categorías incorrectas o producir detecciones de baja confianza. El modelo no fue entrenado específicamente para esas figuras y no se modificaron artificialmente los resultados.
 
 ### 03 – Estacionamiento inteligente
 
@@ -128,8 +144,8 @@ Streamlit indicará la dirección local de la aplicación, normalmente `http://l
 
 Las imágenes deben presentar suficiente resolución, contraste y calidad para el algoritmo correspondiente. La iluminación uniforme, la reducción de oclusiones y la separación visual entre objetos favorecen resultados más estables.
 
-Los métodos clásicos utilizados no poseen comprensión semántica general. Sus resultados dependen de umbrales, geometría, textura, contraste y configuración de la escena. Por este motivo, las salidas deben interpretarse como estimaciones basadas en procesamiento de imágenes y no como clasificación universal de objetos.
+Los métodos de detección utilizados dependen del modelo, sus categorías de entrenamiento, el umbral de confianza, la resolución y las condiciones de la escena. En particular, YOLO11n no debe interpretarse como un clasificador universal de objetos fuera de las categorías para las que fue entrenado.
 
 ## Estado actual del proyecto
 
-Se encuentran implementados el Home, la navegación entre las tres herramientas, el detector facial y el detector de objetos. La galería de estacionamiento se encuentra integrada y permite seleccionar imágenes locales. El análisis de plazas mediante regiones de interés y sus métricas permanece pendiente de implementación y validación.
+Se encuentran implementados el Home, la navegación entre las tres herramientas, el detector facial y el detector de objetos mediante YOLO11n. La galería de estacionamiento se encuentra integrada y permite seleccionar imágenes locales. El análisis de plazas mediante regiones de interés y sus métricas permanece pendiente de implementación y validación. La herramienta 03 no utiliza YOLO en esta etapa.

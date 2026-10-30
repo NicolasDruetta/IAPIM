@@ -21,3 +21,16 @@
         min-width: 100% !important;
     }
 }
+
+@media (max-width: 991.98px) {
+    .st-key-object-gallery .stHorizontalBlock,
+    .st-key-parking-gallery .stHorizontalBlock {
+        flex-wrap: nowrap !important;
+    }
+
+    .st-key-object-gallery .stHorizontalBlock > .stColumn,
+    .st-key-parking-gallery .stHorizontalBlock > .stColumn {
+        flex: 1 1 0 !important;
+        min-width: 0 !important;
+    }
+}

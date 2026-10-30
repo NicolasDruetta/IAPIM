@@ -1,4 +1,3 @@
-import numpy as np
 import streamlit as st
 
 from functions import configure_page
@@ -28,12 +27,11 @@ with title_column:
     )
 
 with home_column:
-    st.write("")
-    st.write("")
-    if st.button("Volver al Inicio", width="stretch"):
-        st.switch_page("main.py")
-
-empty_result_image = np.full((400, 640, 3), 45, dtype=np.uint8)
+    with st.container(horizontal_alignment="right"):
+        st.write("")
+        st.write("")
+        if st.button("Volver al Inicio", width="content"):
+            st.switch_page("main.py")
 
 left_column, right_column = st.columns([1, 1], gap="large")
 
@@ -54,24 +52,29 @@ with left_column:
         if "selected_parking_image" not in st.session_state:
             st.session_state.selected_parking_image = None
 
-        gallery_columns_count = min(5, len(gallery_images))
+        with st.container(key="parking-gallery"):
+            for row_start in range(0, len(gallery_images), 4):
+                gallery_row = gallery_images[row_start:row_start + 4]
+                gallery_columns = st.columns(4, gap="small")
 
-        for row_start in range(0, len(gallery_images), gallery_columns_count):
-            gallery_row = gallery_images[
-                row_start:row_start + gallery_columns_count
-            ]
-            gallery_columns = st.columns(gallery_columns_count, gap="small")
-
-            for gallery_column, image_path in zip(gallery_columns, gallery_row):
-                with gallery_column:
-                    with st.container(border=True):
-                        st.image(image_path.read_bytes(), width="stretch")
-                        if st.button(
-                            "Usar",
-                            key=f"parking_{image_path.name}",
-                            width="stretch",
-                        ):
-                            st.session_state.selected_parking_image = image_path
+                for gallery_column, image_path in zip(
+                    gallery_columns,
+                    gallery_row,
+                ):
+                    with gallery_column:
+                        with st.container(border=True):
+                            st.image(
+                                image_path.read_bytes(),
+                                width="stretch",
+                            )
+                            if st.button(
+                                "Usar",
+                                key=f"parking_{image_path.name}",
+                                width="stretch",
+                            ):
+                                st.session_state.selected_parking_image = (
+                                    image_path
+                                )
 
 with right_column:
     st.subheader("Resultados del análisis")
@@ -90,4 +93,5 @@ with right_column:
             width="stretch",
         )
     else:
-        st.image(empty_result_image, width="stretch")
+        with st.container(height=400, border=True):
+            st.write("")
