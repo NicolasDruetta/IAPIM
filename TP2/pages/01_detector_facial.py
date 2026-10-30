@@ -74,9 +74,10 @@ title_column, home_column = st.columns([5, 1])
 
 with title_column:
     st.title("01 – Detector facial")
-    st.write("Capturá una fotografía y analizala para detectar rostros.")
+    st.write("Capture una fotografía y analícela para detectar rostros.")
 
 with home_column:
+    st.write("")
     st.write("")
     if st.button("Volver al Inicio", width="stretch"):
         st.switch_page("main.py")
@@ -98,7 +99,7 @@ left_column, right_column = st.columns([1, 1], gap="large")
 
 with left_column:
     st.subheader("Captura de imagen")
-    st.write("Tomá una fotografía con la cámara")
+    st.write("Tome una fotografía con la cámara.")
     captured_image = st.camera_input(
         "Cámara",
         key=f"camera_input_{st.session_state.camera_key}",
@@ -131,7 +132,7 @@ with left_column:
 
 with right_column:
     st.subheader("Resultados del análisis")
-    st.write("Visualizá la fotografía con los rostros detectados")
+    st.write("Visualice la fotografía con los rostros detectados.")
 
     if st.session_state.detection_error:
         st.error(st.session_state.detection_error)

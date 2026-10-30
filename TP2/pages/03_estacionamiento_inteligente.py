@@ -24,10 +24,11 @@ title_column, home_column = st.columns([5, 1])
 with title_column:
     st.title("03 – Estacionamiento inteligente")
     st.write(
-        "Seleccioná una imagen de la galería para analizar las plazas de estacionamiento."
+        "Seleccione una imagen de la galería para analizar las plazas de estacionamiento."
     )
 
 with home_column:
+    st.write("")
     st.write("")
     if st.button("Volver al Inicio", width="stretch"):
         st.switch_page("main.py")
@@ -37,10 +38,10 @@ empty_result_image = np.full((400, 640, 3), 45, dtype=np.uint8)
 left_column, right_column = st.columns([1, 1], gap="large")
 
 with left_column:
-    st.subheader("Carga de imagen")
-    st.write("Seleccioná una imagen para analizarla")
+    st.subheader("Selección de imagen")
+    st.write("Cargue una imagen para analizarla.")
     uploaded_image = st.file_uploader(
-        "Cargar fotografía",
+        "Cargue una imagen",
         type=["jpg", "jpeg", "png"],
         label_visibility="collapsed",
     )
@@ -74,5 +75,5 @@ with left_column:
 
 with right_column:
     st.subheader("Resultados del análisis")
-    st.write("Visualizá la fotografía con las plazas detectadas")
+    st.write("Visualice la fotografía con las plazas detectadas.")
     st.image(empty_result_image, width="stretch")

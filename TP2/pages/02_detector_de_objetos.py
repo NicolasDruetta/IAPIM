@@ -117,10 +117,11 @@ title_column, home_column = st.columns([5, 1])
 with title_column:
     st.title("02 – Detector de objetos")
     st.write(
-        "Subí una imagen para segmentar y localizar objetos visualmente separables."
+        "Suba una imagen para segmentar y localizar objetos visualmente separables."
     )
 
 with home_column:
+    st.write("")
     st.write("")
     if st.button("Volver al Inicio", width="stretch"):
         st.switch_page("main.py")
@@ -136,8 +137,8 @@ empty_result_image = np.full((400, 640, 3), 45, dtype=np.uint8)
 left_column, right_column = st.columns([1, 1], gap="large")
 
 with left_column:
-    st.subheader("Carga de imagen")
-    st.write("Seleccioná una imagen para analizarla")
+    st.subheader("Selección de imagen")
+    st.write("Cargue una imagen para analizarla.")
     preloaded_images_directory = (
         Path(__file__).resolve().parents[1]
         / "assets"
@@ -151,7 +152,7 @@ with left_column:
     )
     card_images = prepare_card_images(preloaded_images)
     uploaded_image = st.file_uploader(
-        "Cargar fotografía",
+        "Cargue una imagen",
         type=["jpg", "jpeg", "png"],
         label_visibility="collapsed",
     )
@@ -195,7 +196,7 @@ with left_column:
 
 with right_column:
     st.subheader("Resultados del análisis")
-    st.write("Visualizá la fotografía con los objetos detectados")
+    st.write("Visualice la fotografía con los objetos detectados.")
 
     if st.session_state.object_detection_error:
         st.error(st.session_state.object_detection_error)

@@ -17,7 +17,7 @@ with first_column:
             "pages/01_detector_facial.py",
             label=(
                 "**01 – Detector facial**\n\n"
-                "Capturá una fotografía con la cámara y detectá los rostros presentes"
+                "Capture una fotografía con la cámara y detecte los rostros presentes"
             ),
             width="stretch",
         )
@@ -28,7 +28,7 @@ with second_column:
             "pages/02_detector_de_objetos.py",
             label=(
                 "**02 – Detector de objetos**\n\n"
-                "Subí una imagen y detectá objetos visualmente separables"
+                "Suba una imagen y detecte objetos visualmente separables"
             ),
             width="stretch",
         )
@@ -39,7 +39,7 @@ with third_column:
             "pages/03_estacionamiento_inteligente.py",
             label=(
                 "**03 – Estacionamiento inteligente**\n\n"
-                "Analizá plazas libres y ocupadas en imágenes de estacionamiento"
+                "Analice plazas libres y ocupadas en imágenes de estacionamiento"
             ),
             width="stretch",
         )
