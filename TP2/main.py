@@ -1,15 +1,13 @@
 import streamlit as st
 
-from functions import load_custom_css
+from functions import configure_page
 
-
-st.set_page_config(page_title="IAPIM - Vision Lab", layout="wide")
-
-load_custom_css()
+configure_page("IAPIM - Vision Lab")
 
 st.title("IAPIM - Vision Lab")
 st.subheader("Laboratorio de Visión Artificial y Procesamiento de Imágenes.")
-st.write("Autor: Nicolás Druetta. Año: 2026.")
+
+st.divider()
 
 first_column, second_column, third_column = st.columns(3, gap="medium")
 
@@ -45,3 +43,10 @@ with third_column:
             ),
             width="stretch",
         )
+
+st.divider()
+
+empty_column, footer_column = st.columns([5, 1])
+
+with footer_column:
+    st.caption("Autor: Nicolás Druetta. Año: 2026.")

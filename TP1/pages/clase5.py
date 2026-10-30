@@ -6,7 +6,6 @@ import streamlit as st
 
 from PIL import Image
 
-
 def body_class5():
     st.title("Clase 5: Transformaciones geométricas y filtrado")
 

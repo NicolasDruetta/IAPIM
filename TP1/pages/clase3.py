@@ -6,7 +6,6 @@ import streamlit as st
 
 from PIL import Image
 
-
 def body_class3():
     st.title("Clase 3: Streamlit")
 

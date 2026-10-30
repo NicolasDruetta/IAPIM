@@ -56,7 +56,7 @@ contraste, tamaño y proximidad entre objetos.
 ## Herramienta 03 – Estacionamiento inteligente
 
 La herramienta está preparada para trabajar con una galería local ubicada en
-`images/03_estacionamiento_inteligente/`. No solicita cargas desde la
+`assets/images/03_estacionamiento_inteligente/`. No solicita cargas desde la
 computadora: cuando existan imágenes adecuadas, permitirá seleccionar una
 fotografía o elegir una de forma aleatoria, ejecutar el análisis y mostrar el
 total de plazas, las plazas ocupadas, las libres y el porcentaje de ocupación.

@@ -2,9 +2,8 @@ import cv2
 import numpy as np
 import streamlit as st
 
-from functions import load_custom_css
+from functions import configure_page
 from pathlib import Path
-
 
 def detect_faces(image_bytes):
     """Detecta rostros y dibuja sus rectángulos sobre una imagen."""
@@ -43,7 +42,6 @@ def detect_faces(image_bytes):
     processed_image = cv2.cvtColor(processed_image, cv2.COLOR_BGR2RGB)
     return processed_image, len(faces)
 
-
 def fit_result_image(image_rgb):
     """Ajusta la imagen procesada al tamaño visual del cuadro de resultado."""
     target_width = 640
@@ -70,10 +68,18 @@ def fit_result_image(image_rgb):
     ] = resized_image
     return fitted_image
 
+configure_page("IAPIM - Vision Lab")
 
-st.set_page_config(page_title="IAPIM - Vision Lab", layout="wide")
+title_column, home_column = st.columns([5, 1])
 
-load_custom_css()
+with title_column:
+    st.title("01 – Detector facial")
+    st.write("Capturá una fotografía y analizala para detectar rostros.")
+
+with home_column:
+    st.write("")
+    if st.button("Volver al Inicio", width="stretch"):
+        st.switch_page("main.py")
 
 if "camera_key" not in st.session_state:
     st.session_state.camera_key = 0
@@ -87,9 +93,6 @@ if "face_count" not in st.session_state:
     st.session_state.face_count = 0
 
 empty_result_image = np.full((400, 640, 3), 45, dtype=np.uint8)
-
-st.title("01 – Detector facial")
-st.write("Capturá una fotografía y analizala para detectar rostros.")
 
 left_column, right_column = st.columns([1, 1], gap="large")
 
@@ -144,5 +147,3 @@ with right_column:
 
         if st.session_state.face_count == 0:
             st.warning("No se detectaron rostros en la fotografía.")
-
-st.page_link("main.py", label="Volver al Home")

@@ -2,9 +2,8 @@ import cv2
 import numpy as np
 import streamlit as st
 
-from functions import load_custom_css
+from functions import configure_page
 from pathlib import Path
-
 
 def detect_objects(image_bytes):
     """Segmenta objetos separables y dibuja sus contornos rectangulares."""
@@ -63,15 +62,68 @@ def detect_objects(image_bytes):
     processed_image = cv2.cvtColor(processed_image, cv2.COLOR_BGR2RGB)
     return processed_image, len(detected_contours)
 
+def prepare_card_images(image_paths):
+    """Ajusta las miniaturas al tamaño de la imagen más grande."""
+    decoded_images = [
+        (image_path, cv2.imread(str(image_path)))
+        for image_path in image_paths
+    ]
+    decoded_images = [
+        (image_path, image)
+        for image_path, image in decoded_images
+        if image is not None
+    ]
 
-st.set_page_config(page_title="IAPIM - Detector de objetos", layout="wide")
+    if not decoded_images:
+        return []
 
-load_custom_css()
+    maximum_height = max(image.shape[0] for _, image in decoded_images)
+    maximum_width = max(image.shape[1] for _, image in decoded_images)
+    prepared_images = []
 
-st.title("02 – Detector de objetos")
-st.write(
-    "Subí una imagen para segmentar y localizar objetos visualmente separables."
-)
+    for image_path, image in decoded_images:
+        image_height, image_width = image.shape[:2]
+        scale = min(
+            maximum_width / image_width,
+            maximum_height / image_height,
+        )
+        resized_width = round(image_width * scale)
+        resized_height = round(image_height * scale)
+        resized_image = cv2.resize(
+            image,
+            (resized_width, resized_height),
+            interpolation=cv2.INTER_AREA,
+        )
+        canvas = np.zeros(
+            (maximum_height, maximum_width, 3),
+            dtype=np.uint8,
+        )
+        offset_x = (maximum_width - resized_width) // 2
+        offset_y = (maximum_height - resized_height) // 2
+        canvas[
+            offset_y:offset_y + resized_height,
+            offset_x:offset_x + resized_width,
+        ] = resized_image
+        prepared_images.append(
+            (image_path, cv2.cvtColor(canvas, cv2.COLOR_BGR2RGB))
+        )
+
+    return prepared_images
+
+configure_page("IAPIM - Detector de objetos")
+
+title_column, home_column = st.columns([5, 1])
+
+with title_column:
+    st.title("02 – Detector de objetos")
+    st.write(
+        "Subí una imagen para segmentar y localizar objetos visualmente separables."
+    )
+
+with home_column:
+    st.write("")
+    if st.button("Volver al Inicio", width="stretch"):
+        st.switch_page("main.py")
 
 if "object_detection_error" not in st.session_state:
     st.session_state.object_detection_error = None
@@ -79,13 +131,16 @@ if "object_detection_result" not in st.session_state:
     st.session_state.object_detection_result = None
 if "object_count" not in st.session_state:
     st.session_state.object_count = 0
+empty_result_image = np.full((400, 640, 3), 45, dtype=np.uint8)
 
 left_column, right_column = st.columns([1, 1], gap="large")
 
 with left_column:
     st.subheader("Carga de imagen")
+    st.write("Seleccioná una imagen para analizarla")
     preloaded_images_directory = (
         Path(__file__).resolve().parents[1]
+        / "assets"
         / "images"
         / "02_detector_de_objetos"
     )
@@ -94,6 +149,7 @@ with left_column:
         for image_path in preloaded_images_directory.glob("*")
         if image_path.suffix.lower() in {".jpg", ".jpeg", ".png"}
     )
+    card_images = prepare_card_images(preloaded_images)
     uploaded_image = st.file_uploader(
         "Cargar fotografía",
         type=["jpg", "jpeg", "png"],
@@ -103,12 +159,12 @@ with left_column:
     st.write("Imágenes precargadas")
     image_columns = st.columns(5, gap="small")
 
-    for image_column, image_path in zip(image_columns, preloaded_images):
+    for image_column, (image_path, card_image) in zip(image_columns, card_images):
         with image_column:
             with st.container(border=True):
-                st.image(image_path.read_bytes(), width="stretch")
+                st.image(card_image, width="stretch")
                 if st.button(
-                    "",
+                    "Usar",
                     key=f"select_{image_path.name}",
                     width="stretch",
                 ):
@@ -139,13 +195,12 @@ with left_column:
 
 with right_column:
     st.subheader("Resultados del análisis")
+    st.write("Visualizá la fotografía con los objetos detectados")
 
     if st.session_state.object_detection_error:
         st.error(st.session_state.object_detection_error)
     elif st.session_state.object_detection_result is None:
-        st.info(
-            "Subí una imagen o hacé clic en una imagen precargada para analizarla."
-        )
+        st.image(empty_result_image, width="stretch")
     else:
         st.image(
             st.session_state.object_detection_result,
@@ -153,9 +208,3 @@ with right_column:
             width="stretch",
         )
         st.metric("Objetos detectados", st.session_state.object_count)
-
-st.write(
-    "La herramienta utiliza umbralización, operaciones morfológicas y contornos. "
-    "No identifica categorías semánticas y puede agrupar objetos cercanos."
-)
-st.page_link("main.py", label="Volver al Home")

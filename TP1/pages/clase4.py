@@ -6,7 +6,6 @@ import streamlit as st
 
 from PIL import Image, ImageEnhance, ImageOps
 
-
 def body_class4():
     st.title("Clase 4: Operaciones básicas sobre imágenes")
 

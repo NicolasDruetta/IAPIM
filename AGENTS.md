@@ -1,14 +1,23 @@
 # Reglas
 
+## REGLA UNIVERSAL DE SEPARACIÓN
+
+- No puede haber más de una línea en blanco consecutiva en ningún archivo del proyecto.
+- Nunca separo dos funciones, clases, bloques o instrucciones con dos o más líneas en blanco.
+
 ## Convenciones generales
 
 - Uso la convención PEP 8 para la nomenclatura y el formato del código.
 - Entre funciones y bloques de código dejo exactamente una línea en blanco: ni cero ni dos.
+- No dejo líneas en blanco consecutivas. Toda separación utiliza como máximo una
+  sola línea en blanco; nunca separo dos definiciones con dos o más líneas.
 - Ordeno alfabéticamente todas las funciones dentro de cada archivo.
 - Primero van todos los `import`, después todos los `from`, y cada grupo se ordena alfabéticamente.
 - Utilizo solamente componentes nativos de Streamlit, sin HTML, CSS ni JavaScript.
 - No utilizo selectores CSS basados en atributos `data-testid`; cuando se
   autoriza CSS, utilizo únicamente clases reales y semánticas de Streamlit.
+- `functions.py` no contiene HTML, CSS inline ni componentes visuales; toda la
+  interfaz queda escrita directamente en `main.py` y en cada página.
 
 ## Arquitectura permanente de IAPIM Vision Lab – TP2
 
