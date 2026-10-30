@@ -10,22 +10,23 @@ IAPIM Vision Lab es un laboratorio académico de visión artificial y procesamie
 
 ## Descripción general
 
-La aplicación reúne herramientas independientes para explorar problemas básicos de visión artificial mediante procesamiento clásico de imágenes. El laboratorio aborda la detección de rostros, la segmentación de objetos visualmente separables y la preparación de un análisis de ocupación de plazas de estacionamiento.
+La aplicación reúne herramientas independientes para explorar problemas de visión artificial. El laboratorio aborda la detección de rostros, la detección de objetos y la segmentación semántica de escenas.
 
 Estas técnicas tienen aplicaciones prácticas en sistemas de asistencia, inspección visual, automatización de tareas, análisis de escenas y apoyo a la toma de decisiones. Los resultados dependen de la calidad de las imágenes y de las condiciones específicas de cada escenario.
 
 ## Tecnologías utilizadas
 
-- Python 3.15.
+- Python 3.14.
 - Streamlit 1.66.0 para la interfaz multipágina.
 - OpenCV 5.0.0.93 para lectura y transformación de imágenes.
 - NumPy 2.5.4 para representar imágenes y realizar operaciones matriciales.
 - PyTorch 2.15.0 como motor de inferencia de aprendizaje profundo.
 - Torchvision 0.29.2 como dependencia de visión de PyTorch.
+- Transformers 5.22.0 para cargar el procesador y el modelo SegFormer.
 - Ultralytics 8.4.193 para ejecutar modelos YOLO.
 - `pathlib`, incluida en la biblioteca estándar de Python, para resolver rutas de recursos.
 
-El archivo `requirements.txt` también conserva dependencias disponibles para el entorno académico general: Matplotlib, pandas, Pillow y scikit-image. La implementación actual de TP2 utiliza directamente Streamlit, OpenCV, NumPy, Pillow, PyTorch, Torchvision, Ultralytics y `pathlib`.
+El archivo `requirements.txt` también conserva dependencias disponibles para el entorno académico general: Matplotlib, pandas, Pillow y scikit-image. La implementación actual de TP2 utiliza directamente Streamlit, OpenCV, NumPy, Pillow, PyTorch, Torchvision, Transformers, Ultralytics y `pathlib`.
 
 ## Arquitectura
 
@@ -42,14 +43,14 @@ TP2/
 │   ├── icon.png
 │   └── images/
 │       ├── 02_detector_de_objetos/
-│       └── 03_estacionamiento_inteligente/
+│       └── 03_analizador_de_escenas/
 ├── functions.py
 ├── main.py
 ├── yolo11n.pt
 ├── pages/
 │   ├── 01_detector_facial.py
 │   ├── 02_detector_de_objetos.py
-│   └── 03_estacionamiento_inteligente.py
+│   └── 03_analizador_de_escenas.py
 └── README.md
 ```
 
@@ -95,23 +96,29 @@ TP2/
 
 **Limitaciones:** las imágenes precargadas contienen figuras geométricas sintéticas que no representan necesariamente las categorías de COCO. Por esa razón, YOLO puede no detectar objetos, asignar categorías incorrectas o producir detecciones de baja confianza. El modelo no fue entrenado específicamente para esas figuras y no se modificaron artificialmente los resultados.
 
-### 03 – Estacionamiento inteligente
+### 03 – Analizador de escenas
 
-**Objetivo:** preparar el análisis clásico de plazas libres y ocupadas en escenarios de estacionamiento.
+**Objetivo:** segmentar semánticamente una fotografía y asignar una categoría a cada píxel según las clases reconocidas por ADE20K, como cielo, edificios, calles, árboles, vegetación, suelo, paredes y muebles.
 
-**Entrada:** imágenes precargadas en `assets/images/03_estacionamiento_inteligente/`. La página no solicita fotografías desde la computadora.
+**Entrada:** una fotografía cargada desde la computadora mediante `st.file_uploader()` o una fotografía real precargada en `assets/images/03_analizador_de_escenas/`. La página también permite elegir una fotografía aleatoria de la galería cuando esta contiene imágenes.
 
-**Estado actual:** la galería local contiene seis imágenes y la interfaz permite visualizarlas y seleccionarlas mediante el botón «Usar». Todavía no están implementadas las regiones de interés, la clasificación de cada plaza ni el cálculo de plazas totales, ocupadas, libres y porcentaje de ocupación.
+**Segmentación semántica:** cada píxel recibe una clase del modelo. El resultado no representa objetos individuales ni utiliza cajas delimitadoras; una misma categoría puede aparecer en varias regiones de la imagen.
 
-**Funcionamiento previsto:** cada escenario requerirá regiones de interés definidas de acuerdo con la distribución de sus plazas. Sobre esas regiones se aplicarán técnicas clásicas de procesamiento para estimar la ocupación.
+**Modelo:** se utiliza `nvidia/segformer-b0-finetuned-ade-512-512`, un modelo SegFormer preentrenado sobre ADE20K. `AutoImageProcessor` prepara la imagen y ajusta el mapa de clases a la resolución original mediante el postprocesamiento de Transformers.
 
-**Limitaciones actuales:** no se presentan resultados de ocupación hasta definir y validar las regiones de interés de cada imagen. No se utilizan YOLO, MediaPipe ni modelos externos.
+**Resultados:** la página muestra la fotografía original, una superposición coloreada, una leyenda con los nombres reales de las categorías, el porcentaje de píxeles de cada categoría y la cantidad de categorías presentes. La opacidad se modifica con un slider sin repetir la inferencia: el mapa y las estadísticas permanecen en `st.session_state`.
+
+**Procesamiento:** el modelo se carga con `st.cache_resource()`. La inferencia selecciona CUDA cuando está disponible, MPS en Apple Silicon como alternativa y CPU en los demás equipos. La primera ejecución descarga el procesador, la configuración y los pesos desde Hugging Face y los conserva en la caché local del usuario.
+
+**Estado de la galería:** al momento de esta implementación no hay fotografías variadas disponibles en el repositorio. La carpeta `assets/images/03_analizador_de_escenas/` queda preparada para incorporar fotografías reales de ciudad, calle, bosque, playa, oficina o habitación. Hasta agregar esas imágenes, la interfaz muestra un aviso y permite utilizar la carga manual.
+
+**Limitaciones:** la calidad depende de las clases y del entrenamiento de ADE20K, la resolución, la iluminación y la composición de la fotografía. La inferencia en CPU puede ser lenta y las categorías no deben interpretarse como detecciones de instancias ni como una descripción exhaustiva de la escena.
 
 ## Instalación y ejecución
 
 ### Requisitos previos
 
-- Python 3.15.
+- Python 3.14.
 - Un navegador con permisos para utilizar la cámara en la herramienta 01.
 - Un entorno virtual de Python.
 
@@ -120,7 +127,7 @@ TP2/
 Desde la raíz del proyecto, cree o active el entorno virtual e instale las dependencias:
 
 ```bash
-python3.15 -m venv .venv
+    python3.14 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
 ```
@@ -142,10 +149,10 @@ Streamlit indicará la dirección local de la aplicación, normalmente `http://l
 
 ## Consideraciones técnicas
 
-Las imágenes deben presentar suficiente resolución, contraste y calidad para el algoritmo correspondiente. La iluminación uniforme, la reducción de oclusiones y la separación visual entre objetos favorecen resultados más estables.
+Las imágenes deben presentar suficiente resolución, contraste y calidad para el algoritmo correspondiente. La iluminación uniforme, la reducción de oclusiones y la separación visual entre objetos favorecen resultados más estables. En la herramienta 03, la primera carga del modelo SegFormer requiere conexión a Internet y espacio de caché para los archivos descargados; las ejecuciones posteriores pueden reutilizar esa caché.
 
 Los métodos de detección utilizados dependen del modelo, sus categorías de entrenamiento, el umbral de confianza, la resolución y las condiciones de la escena. En particular, YOLO11n no debe interpretarse como un clasificador universal de objetos fuera de las categorías para las que fue entrenado.
 
 ## Estado actual del proyecto
 
-Se encuentran implementados el Home, la navegación entre las tres herramientas, el detector facial y el detector de objetos mediante YOLO11n. La galería de estacionamiento se encuentra integrada y permite seleccionar imágenes locales. El análisis de plazas mediante regiones de interés y sus métricas permanece pendiente de implementación y validación. La herramienta 03 no utiliza YOLO en esta etapa.
+Se encuentran implementados el Home, la navegación entre las tres herramientas, el detector facial, el detector de objetos mediante YOLO11n y el analizador de escenas mediante SegFormer. La galería de escenas queda preparada, pero requiere fotografías reales para evaluar visualmente la herramienta con imágenes precargadas. La inferencia real se ejecutará después de instalar las dependencias y descargar el modelo desde Hugging Face.

@@ -16,6 +16,8 @@ Este documento establece las convenciones generales de programación, organizaci
 - Las importaciones se ubican al comienzo de cada archivo y se organizan con los `import` antes de los `from`.
 - Los comentarios y docstrings se incorporan cuando aportan contexto, explican una decisión o mejoran la comprensión del código.
 - Los decoradores se reservan para necesidades técnicas justificadas.
+- No se utilizan decoradores de caché de Streamlit, como `st.cache_data` o `st.cache_resource`.
+- Las funciones de cada módulo se ordenan alfabéticamente por nombre.
 
 ## Organización del código
 

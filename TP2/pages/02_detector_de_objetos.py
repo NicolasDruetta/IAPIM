@@ -38,12 +38,10 @@ def detect_objects(image_bytes, model):
     category_counts = dict(sorted(Counter(category_names).items()))
     return processed_image, len(category_names), category_counts
 
-@st.cache_resource
 def get_detection_executor():
     """Crea el ejecutor compartido para inferencias en segundo plano."""
     return ThreadPoolExecutor(max_workers=1)
 
-@st.cache_resource
 def load_yolo_model():
     """Carga una única instancia compartida del modelo YOLO11n."""
     if not YOLO_MODEL_PATH.exists():
@@ -216,8 +214,6 @@ def update_detection_panel():
     if detection_future is not None and not detection_future.done():
         with result_placeholder.container(height=400, border=True):
             st.write("Analizando imagen...")
-            with st.spinner("Procesando detección..."):
-                st.write("")
         return
 
     if detection_future is not None:

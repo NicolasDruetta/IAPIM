@@ -36,10 +36,10 @@ with second_column:
 with third_column:
     with st.container(border=True):
         st.page_link(
-            "pages/03_estacionamiento_inteligente.py",
+            "pages/03_analizador_de_escenas.py",
             label=(
-                "**03 – Estacionamiento inteligente**\n\n"
-                "Analice plazas libres y ocupadas en imágenes de estacionamiento"
+                "**03 – Analizador de escenas**\n\n"
+                "Seleccioná una fotografía y descubrí cómo la inteligencia artificial identifica las regiones de una escena"
             ),
             width="stretch",
         )

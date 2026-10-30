@@ -1,11 +1,12 @@
-# Requiere Python 3.15
+# Requiere Python 3.14
 matplotlib==3.11.2
 numpy==2.5.4
 opencv-python==4.14.0.94
 pandas==3.0.6
 pillow==12.3.0
-streamlit==1.66.0
 scikit-image==0.26.0
+streamlit==1.66.0
 torch==2.15.0
 torchvision==0.29.2
+transformers==5.22.0
 ultralytics==8.4.193
