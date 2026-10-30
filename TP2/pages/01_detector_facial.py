@@ -2,6 +2,7 @@ import cv2
 import numpy as np
 import streamlit as st
 
+from functions import load_custom_css
 from pathlib import Path
 
 
@@ -71,7 +72,8 @@ def fit_result_image(image_rgb):
 
 
 st.set_page_config(page_title="IAPIM - Vision Lab", layout="wide")
-st.set_option("client.showSidebarNavigation", False)
+
+load_custom_css()
 
 if "camera_key" not in st.session_state:
     st.session_state.camera_key = 0

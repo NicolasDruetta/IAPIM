@@ -1,0 +1,41 @@
+.stMainBlockContainer {
+    padding: 2rem 3rem !important; /* Custom Nico. No tocar. */
+}
+
+.stColumn {
+    position: relative;
+}
+
+.stColumn:has(.stButton) {
+    cursor: pointer;
+    position: relative;
+    transition: border-color 0.2s ease;
+}
+
+.stColumn:has(.stButton) * {
+    cursor: pointer;
+}
+
+.stColumn:has(.stButton):hover {
+    border-color: #ff4b4b !important;
+    outline: 1px solid #ff4b4b;
+    outline-offset: 2px;
+}
+
+.stColumn:has(.stButton) .stButton {
+    inset: 0;
+    position: absolute;
+    z-index: 2;
+}
+
+.stColumn:has(.stButton) .stButton button {
+    background: transparent !important;
+    border: 0 !important;
+    color: transparent !important;
+    cursor: pointer;
+    height: 100% !important;
+    min-height: 100% !important;
+    opacity: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+}

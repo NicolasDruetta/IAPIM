@@ -7,6 +7,8 @@
 - Ordeno alfabéticamente todas las funciones dentro de cada archivo.
 - Primero van todos los `import`, después todos los `from`, y cada grupo se ordena alfabéticamente.
 - Utilizo solamente componentes nativos de Streamlit, sin HTML, CSS ni JavaScript.
+- No utilizo selectores CSS basados en atributos `data-testid`; cuando se
+  autoriza CSS, utilizo únicamente clases reales y semánticas de Streamlit.
 
 ## Arquitectura permanente de IAPIM Vision Lab – TP2
 
