@@ -76,4 +76,18 @@ with left_column:
 with right_column:
     st.subheader("Resultados del análisis")
     st.write("Visualice la fotografía con las plazas detectadas.")
-    st.image(empty_result_image, width="stretch")
+    if uploaded_image is not None:
+        st.image(
+            uploaded_image.getvalue(),
+            caption="Imagen seleccionada",
+            width="stretch",
+        )
+    elif st.session_state.get("selected_parking_image") is not None:
+        selected_image_path = st.session_state.selected_parking_image
+        st.image(
+            selected_image_path.read_bytes(),
+            caption="Imagen seleccionada",
+            width="stretch",
+        )
+    else:
+        st.image(empty_result_image, width="stretch")
