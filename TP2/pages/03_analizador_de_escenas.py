@@ -2,13 +2,16 @@ import colorsys
 import numpy as np
 import streamlit as st
 import torch
+
 from io import BytesIO
 from pathlib import Path
 from PIL import Image
 from functions import configure_page
+
 MODEL_NAME = "nvidia/segformer-b0-finetuned-ade-512-512"
 GALLERY_DIRECTORY = Path(__file__).resolve().parents[1] / "assets" / "images" / "03_analizador_de_escenas"
 SUPPORTED_EXTENSIONS = {".jpg", ".jpeg", ".png"}
+
 def build_palette(class_ids):
     """Genera colores diferenciados y deterministas para las clases presentes."""
     palette = {}
@@ -19,6 +22,7 @@ def build_palette(class_ids):
         palette[class_id] = tuple(round(channel * 255) for channel in (red, green, blue))
 
     return palette
+
 def create_overlay(original_image, color_mask, opacity):
     """Combina la imagen original y la máscara con la opacidad indicada."""
     original_array = np.asarray(original_image).astype(np.float32)
@@ -26,6 +30,7 @@ def create_overlay(original_image, color_mask, opacity):
     overlay = original_array * (1 - opacity) + mask_array * opacity
 
     return np.clip(overlay, 0, 255).astype(np.uint8)
+
 def prepare_gallery_images(image_paths):
     """Ajusta las miniaturas a un lienzo común según la imagen más alta."""
     decoded_images = []
@@ -55,6 +60,7 @@ def prepare_gallery_images(image_paths):
         prepared_images.append((image_path, canvas))
 
     return prepared_images
+
 def get_inference_device():
     """Selecciona CUDA, MPS o CPU según la disponibilidad del equipo."""
 
@@ -64,6 +70,7 @@ def get_inference_device():
         return torch.device("mps")
 
     return torch.device("cpu")
+
 def segment_scene(image_bytes, page_state):
     """Segmenta la imagen y devuelve máscara, estadísticas y dispositivo."""
     from transformers import AutoImageProcessor, SegformerForSemanticSegmentation
@@ -123,6 +130,7 @@ def segment_scene(image_bytes, page_state):
         })
 
     return image, color_mask, category_statistics, device
+
 configure_page("IAPIM - Analizador de escenas")
 
 if "visionlab_scenes" not in st.session_state:
@@ -143,6 +151,8 @@ with st.container(horizontal=True, vertical_alignment="center", gap="small", wid
         st.switch_page("main.py")
 
 st.write("Seleccione una fotografía y observe cómo la inteligencia artificial identifica las regiones de la escena.")
+
+st.divider()
 
 left_column, right_column = st.columns([1, 1], gap="large")
 

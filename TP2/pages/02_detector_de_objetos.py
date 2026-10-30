@@ -2,6 +2,7 @@ import cv2
 import numpy as np
 import streamlit as st
 import torch
+
 from collections import Counter
 from io import BytesIO
 from pathlib import Path
@@ -10,7 +11,6 @@ from ultralytics import YOLO
 from functions import configure_page
 
 YOLO_MODEL_PATH = Path(__file__).resolve().parents[2] / "yolo11n.pt"
-
 
 def detect_objects(image_bytes, model):
     """Detecta objetos con YOLO y devuelve imagen, cantidad y categorías."""
@@ -45,7 +45,6 @@ def detect_objects(image_bytes, model):
 
     return processed_image, len(category_names), category_counts
 
-
 def prepare_card_images(image_paths):
     """Ajusta las miniaturas al tamaño de la imagen más grande."""
     decoded_images = [(path, cv2.imread(str(path))) for path in image_paths]
@@ -79,7 +78,6 @@ def prepare_card_images(image_paths):
 
     return prepared_images
 
-
 def run_detection(image_bytes, page_state):
     """Carga YOLO una sola vez por sesión y ejecuta la detección."""
 
@@ -91,7 +89,6 @@ def run_detection(image_bytes, page_state):
         page_state["model"] = YOLO(str(YOLO_MODEL_PATH))
 
     return detect_objects(image_bytes, page_state["model"])
-
 
 configure_page("IAPIM - Detector de objetos")
 
@@ -115,6 +112,8 @@ with st.container(
         st.switch_page("main.py")
 
 st.write("Suba una imagen para detectar y localizar objetos visualmente separables.")
+
+st.divider()
 
 left_column, right_column = st.columns([1, 1], gap="large")
 

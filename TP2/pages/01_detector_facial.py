@@ -1,8 +1,10 @@
 import cv2
 import numpy as np
 import streamlit as st
+
 from pathlib import Path
 from functions import configure_page
+
 def detect_faces(image_bytes):
     """Detecta rostros y dibuja sus rectángulos sobre una imagen."""
     image_array = np.frombuffer(image_bytes, dtype=np.uint8)
@@ -34,6 +36,7 @@ def detect_faces(image_bytes):
     processed_image = cv2.cvtColor(processed_image, cv2.COLOR_BGR2RGB)
 
     return processed_image, len(faces)
+
 def fit_result_image(image_rgb):
     """Ajusta la imagen procesada al tamaño visual del cuadro de resultado."""
     target_width = 640
@@ -56,6 +59,7 @@ def fit_result_image(image_rgb):
     ] = resized_image
 
     return fitted_image
+
 configure_page("IAPIM - Vision Lab")
 
 if "visionlab_face" not in st.session_state:
@@ -73,6 +77,8 @@ with st.container(horizontal=True, vertical_alignment="center", gap="small", wid
         st.switch_page("main.py")
 
 st.write("Capture una fotografía y analícela para detectar rostros.")
+
+st.divider()
 
 left_column, right_column = st.columns([1, 1], gap="large")
 

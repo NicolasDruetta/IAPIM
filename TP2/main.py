@@ -4,7 +4,8 @@ from functions import configure_page
 
 configure_page("IAPIM - Vision Lab")
 
-st.title("IAPIM - Vision Lab")
+with st.container(horizontal=True, vertical_alignment="center", gap="small", width="content"):
+    st.title("IAPIM - Vision Lab")
 st.subheader("Laboratorio de Visión Artificial y Procesamiento de Imágenes.")
 
 st.divider()
@@ -44,9 +45,22 @@ with third_column:
             width="stretch",
         )
 
+fourth_column, empty_column, another_empty_column = st.columns(3, gap="medium")
+
+with fourth_column:
+    with st.container(border=True):
+        st.page_link(
+            "pages/04_lector_de_dados.py",
+            label=(
+                "**04 – Lector inteligente de dados**\n\n"
+                "Detectá dados en una fotografía, contá sus puntos y calculá el resultado total"
+            ),
+            width="stretch",
+        )
+
 st.divider()
 
-empty_column, footer_column = st.columns([5, 1])
+empty_footer_column, footer_column = st.columns([5, 1])
 
 with footer_column:
     st.caption("Autor: Nicolás Druetta. Año: 2026.")

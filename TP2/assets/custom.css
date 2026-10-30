@@ -2,6 +2,10 @@
     padding: 3rem 3rem !important; /* Custom Nico. No tocar. */
 }
 
+hr {
+    margin: 1em 0px !important; /* Custom Nico. No tocar. */
+}
+
 /* Media Queries. */
 
 @media (max-width: 991.98px) {
