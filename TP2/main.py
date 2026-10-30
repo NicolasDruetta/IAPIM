@@ -60,7 +60,5 @@ with fourth_column:
 
 st.divider()
 
-empty_footer_column, footer_column = st.columns([5, 1])
-
-with footer_column:
+with st.container(key="footer"):
     st.caption("Autor: Nicolás Druetta. Año: 2026.")

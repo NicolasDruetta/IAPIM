@@ -2,6 +2,18 @@
     padding: 3rem 3rem !important; /* Custom Nico. No tocar. */
 }
 
+.st-key-footer {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    text-align: right;
+}
+
+.st-key-footer p {
+    margin-left: auto;
+    text-align: right;
+}
+
 hr {
     margin: 1em 0px !important; /* Custom Nico. No tocar. */
 }

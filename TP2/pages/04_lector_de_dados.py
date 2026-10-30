@@ -119,7 +119,6 @@ def detect_dice_regions(image_bgr):
         if len(approximation) < 4 and not cv2.isContourConvex(approximation):
             continue
         candidates.append((x, y, width, height))
-
     regions = []
     for candidate in sorted(candidates, key=lambda region: region[2] * region[3], reverse=True):
         x, y, width, height = candidate

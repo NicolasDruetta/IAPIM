@@ -37,6 +37,8 @@ La distribución de la interfaz contempla distintos tamaños de pantalla y manti
 
 Los textos visibles de las interfaces utilizan tratamiento formal de usted y evitan el voseo.
 
+Las interfaces utilizan componentes nativos de Streamlit. Para ajustes visuales puntuales solicitados explícitamente, se permite CSS acotado mediante la `key` del contenedor afectado. No se utilizan selectores `data-testid`, Markdown con HTML, JavaScript ni `unsafe_allow_html`.
+
 ## Procesamiento de imágenes
 
 El procesamiento de imágenes utiliza las bibliotecas estudiadas en IAPIM y selecciona los algoritmos de acuerdo con los objetivos de cada ejercicio.
