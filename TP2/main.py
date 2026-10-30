@@ -17,7 +17,7 @@ with first_column:
             "pages/01_detector_facial.py",
             label=(
                 "**01 – Detector facial**\n\n"
-                "Capture una fotografía con la cámara y detecte los rostros presentes"
+                "Detecte rostros en fotografías"
             ),
             width="stretch",
         )
@@ -28,7 +28,7 @@ with second_column:
             "pages/02_detector_de_objetos.py",
             label=(
                 "**02 – Detector de objetos**\n\n"
-                "Suba una imagen y detecte objetos visualmente separables"
+                "Detecte objetos visualmente separables"
             ),
             width="stretch",
         )
@@ -39,7 +39,7 @@ with third_column:
             "pages/03_analizador_de_escenas.py",
             label=(
                 "**03 – Analizador de escenas**\n\n"
-                "Seleccioná una fotografía y descubrí cómo la inteligencia artificial identifica las regiones de una escena"
+                "Identifique regiones semánticas en escenas"
             ),
             width="stretch",
         )
