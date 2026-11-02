@@ -29,13 +29,14 @@ def detect_objects(image_bytes, model):
     results = model.predict(
         source=np.array(image),
         conf=0.25,
+        imgsz=960,
         device=inference_device,
         verbose=False,
     )
 
     result = results[0]
 
-    processed_image = result.plot()[:, :, ::-1]
+    processed_image = result.plot()
 
     category_names = [
         result.names[int(class_id)] for class_id in result.boxes.cls.tolist()
@@ -180,6 +181,13 @@ with left_column:
     info_placeholder = st.empty()
     if page_state["selected_name"] is not None:
         info_placeholder.write(f"Imagen seleccionada: {page_state['selected_name']}")
+
+    st.info(
+        "**Modelo seleccionado:** YOLO11n, la versión más liviana de YOLO11, entrenada con el conjunto de datos COCO (80 categorías). "
+        "Elegí esta versión para priorizar la velocidad de procesamiento y mantener el proyecto liviano. "
+        "Como está entrenada sobre un conjunto acotado de categorías, no detecta todos los objetos posibles, "
+        "pero para fines prácticos resulta suficiente para mostrar la idea de detección sin incorporar un modelo más pesado al repositorio."
+    )
 
 with right_column:
     st.subheader("Resultados del análisis")
