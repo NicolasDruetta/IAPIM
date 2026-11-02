@@ -50,10 +50,10 @@ fourth_column, empty_column, another_empty_column = st.columns(3, gap="medium")
 with fourth_column:
     with st.container(border=True):
         st.page_link(
-            "pages/04_lector_de_dados.py",
+            "pages/04_mejorador_de_imagenes.py",
             label=(
-                "**04 – Lector inteligente de dados**\n\n"
-                "Detectá dados en una fotografía, contá sus puntos y calculá el resultado total"
+                "**04 – Mejorador inteligente de imágenes**\n\n"
+                "Mejore el contraste y la luminosidad de una fotografía"
             ),
             width="stretch",
         )
