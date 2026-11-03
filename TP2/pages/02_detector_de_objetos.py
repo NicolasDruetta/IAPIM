@@ -10,7 +10,7 @@ from PIL import Image
 from ultralytics import YOLO
 from functions import configure_page
 
-YOLO_MODEL_PATH = Path(__file__).resolve().parents[2] / "yolo11n.pt"
+YOLO_MODEL_PATH = Path(__file__).resolve().parents[1] / "models" / "yolo11n.pt"
 
 def detect_objects(image_bytes, model):
     """Detecta objetos con YOLO y devuelve imagen, cantidad y categorías."""

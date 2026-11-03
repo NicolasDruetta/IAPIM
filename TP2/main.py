@@ -17,8 +17,8 @@ with first_column:
         st.page_link(
             "pages/01_detector_facial.py",
             label=(
-                "**01 – Detector facial**\n\n"
-                "Detecte rostros en fotografías"
+                "**01 – Detector de emociones faciales**\n\n"
+                "Detecte rostros y analice sus expresiones faciales"
             ),
             width="stretch",
         )
