@@ -58,6 +58,22 @@ with fourth_column:
             width="stretch",
         )
 
+with empty_column:
+    with st.container(border=True):
+        st.page_link(
+            "pages/05_clasificador_de_imagenes.py",
+            label=(
+                "**05 – Clasificador de imágenes**\n\n"
+                "Clasifique fotografías en categorías de ImageNet"
+            ),
+            width="stretch",
+        )
+
+with another_empty_column:
+    with st.container(border=True):
+        st.markdown("**06 – Realidad aumentada facial**")
+        st.caption("Próximamente")
+
 st.divider()
 
 with st.container(key="footer"):
