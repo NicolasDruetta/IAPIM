@@ -217,11 +217,10 @@ with right_column:
 
     if analysis_requested:
         info_placeholder.write(f"Imagen seleccionada: {page_state['selected_name']}. Analizando...")
-        with st.spinner("Analizando imagen...", show_time=False):
-            try:
-                page_state["result"] = segment_scene(page_state["selected_bytes"], page_state)
-            except (OSError, RuntimeError, ValueError, ImportError) as error:
-                page_state["error"] = str(error)
+        try:
+            page_state["result"] = segment_scene(page_state["selected_bytes"], page_state)
+        except (OSError, RuntimeError, ValueError, ImportError) as error:
+            page_state["error"] = str(error)
         info_placeholder.write(f"Imagen seleccionada: {page_state['selected_name']}")
 
     if page_state["error"]:
