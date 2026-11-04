@@ -1,5 +1,3 @@
-"""Utilidades compartidas del laboratorio IAPIM Vision Lab."""
-
 import streamlit as st
 
 from pathlib import Path

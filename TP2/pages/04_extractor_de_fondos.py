@@ -201,7 +201,7 @@ with right_column:
                     data=encoded_result.tobytes(),
                     file_name="imagen_sin_fondo.png",
                     mime="image/png",
-                    width="stretch",
+                    width="content",
                 )
             processing_placeholder.write(
                 f"Imagen seleccionada: {page_state['selected_name']}"
