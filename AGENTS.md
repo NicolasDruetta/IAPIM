@@ -27,6 +27,8 @@ Los módulos conservan independencia y responsabilidades acotadas. La estructura
 
 Cada carpeta conserva las convenciones y estructuras existentes de su proyecto. Los cambios se integran de forma localizada para mantener la coherencia con el código que ya se encuentra implementado.
 
+Cuando dos o más herramientas tienen una interfaz y un flujo similares, deben utilizar la misma estructura de código. Solo deben diferir las funciones y los textos propios del procesamiento específico de cada herramienta.
+
 ## Streamlit
 
 Cuando un proyecto utiliza Streamlit, la interfaz se construye con componentes nativos de la biblioteca. Cada página define directamente sus componentes de presentación, controles, eventos y resultados.

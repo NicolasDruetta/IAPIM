@@ -89,7 +89,7 @@ def render_results(recognition_result):
             continue
         gesture = gestures[0]
         label = GESTURE_LABELS.get(gesture.category_name, gesture.category_name)
-        st.write(f"Mano {index + 1}: {label} ({gesture.score * 100:.2f} %)")
+        st.write(f"**Mano {index + 1}: {label} ({gesture.score * 100:.2f} %)**")
 
 configure_page("IAPIM - Reconocedor de gestos de manos con MediaPipe")
 
@@ -121,7 +121,7 @@ with right_column:
             recognizer = load_recognizer()
             recognition_result = recognize_image(image_bgr, recognizer)
             annotated_image = annotate_image(image_bgr, recognition_result)
-            st.image(cv2.cvtColor(annotated_image, cv2.COLOR_BGR2RGB), caption="Manos y landmarks detectados", width="stretch")
+            st.image(cv2.cvtColor(annotated_image, cv2.COLOR_BGR2RGB), caption="Fotografía procesada", width="stretch")
             render_results(recognition_result)
         except (OSError, ValueError, cv2.error) as error:
             st.error(str(error))

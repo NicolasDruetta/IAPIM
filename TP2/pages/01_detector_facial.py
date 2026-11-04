@@ -137,14 +137,11 @@ with right_column:
                     reverse=True,
                 )
                 dominant_emotion = ranked_emotions[0][0]
+                dominant_percentage = ranked_emotions[0][1]
                 st.write(
-                    f"**Rostro {face_number} — Emoción predominante: "
-                    f"{dominant_emotion}**"
+                    f"**Rostro {face_number}: {dominant_emotion} "
+                    f"({dominant_percentage:.2f} %)**"
                 )
-                st.write(" · ".join(
-                    f"{name}: {percentage:.2f} %"
-                    for name, percentage in ranked_emotions
-                ))
         except Exception as error:
             st.error(f"No se pudo analizar la fotografía: {error}")
 
