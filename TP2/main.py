@@ -1,78 +1,88 @@
 import streamlit as st
 
+from pathlib import Path
+from PIL import Image, ImageOps
 from functions import configure_page
 
 configure_page("IAPIM - Vision Lab")
 
-with st.container(horizontal=True, vertical_alignment="center", gap="small", width="content"):
+ASSETS_DIRECTORY = Path(__file__).resolve().parent / "assets" / "images"
+CARD_DEFINITIONS = (
+    (
+        "05_clasificador_de_imagenes/01.jpg",
+        "pages/01_detector_facial.py",
+        "**01 – Detector de emociones faciales**",
+        "Detecte rostros y analice sus expresiones faciales",
+    ),
+    (
+        "02_detector_de_objetos/04.jpg",
+        "pages/02_detector_de_objetos.py",
+        "**02 – Detector de objetos**",
+        "Detecte objetos visualmente separables",
+    ),
+    (
+        "03_analizador_de_escenas/01.jpg",
+        "pages/03_analizador_de_escenas.py",
+        "**03 – Analizador de escenas**",
+        "Identifique regiones semánticas en escenas",
+    ),
+    (
+        "04_mejorador_de_imagenes/01.jpg",
+        "pages/04_mejorador_de_imagenes.py",
+        "**04 – Mejorador inteligente de imágenes**",
+        "Mejore el contraste y la luminosidad de una fotografía",
+    ),
+    (
+        "05_clasificador_de_imagenes/02.jpg",
+        "pages/05_clasificador_de_imagenes.py",
+        "**05 – Clasificador de imágenes**",
+        "Clasifique fotografías en categorías de ImageNet",
+    ),
+    (
+        "04_mejorador_de_imagenes/03.jpg",
+        "pages/06_extractor_de_fondos.py",
+        "**06 – Extractor inteligente de fondos**",
+        "Separe el objeto principal de una fotografía",
+    ),
+    (
+        "03_analizador_de_escenas/02.jpg",
+        "pages/07_escaner_de_documentos.py",
+        "**07 – Escáner inteligente de documentos**",
+        "Enderece y recorte documentos fotografiados",
+    ),
+)
+
+with st.container(horizontal=True, vertical_alignment="center", width="content"):
     st.title("IAPIM - Vision Lab")
 st.subheader("Laboratorio de Visión Artificial y Procesamiento de Imágenes.")
 
 st.divider()
 
-first_column, second_column, third_column = st.columns(3, gap="medium")
-
-with first_column:
-    with st.container(border=True):
-        st.page_link(
-            "pages/01_detector_facial.py",
-            label=(
-                "**01 – Detector de emociones faciales**\n\n"
-                "Detecte rostros y analice sus expresiones faciales"
-            ),
-            width="stretch",
-        )
-
-with second_column:
-    with st.container(border=True):
-        st.page_link(
-            "pages/02_detector_de_objetos.py",
-            label=(
-                "**02 – Detector de objetos**\n\n"
-                "Detecte objetos visualmente separables"
-            ),
-            width="stretch",
-        )
-
-with third_column:
-    with st.container(border=True):
-        st.page_link(
-            "pages/03_analizador_de_escenas.py",
-            label=(
-                "**03 – Analizador de escenas**\n\n"
-                "Identifique regiones semánticas en escenas"
-            ),
-            width="stretch",
-        )
-
-fourth_column, empty_column, another_empty_column = st.columns(3, gap="medium")
-
-with fourth_column:
-    with st.container(border=True):
-        st.page_link(
-            "pages/04_mejorador_de_imagenes.py",
-            label=(
-                "**04 – Mejorador inteligente de imágenes**\n\n"
-                "Mejore el contraste y la luminosidad de una fotografía"
-            ),
-            width="stretch",
-        )
-
-with empty_column:
-    with st.container(border=True):
-        st.page_link(
-            "pages/05_clasificador_de_imagenes.py",
-            label=(
-                "**05 – Clasificador de imágenes**\n\n"
-                "Clasifique fotografías en categorías de ImageNet"
-            ),
-            width="stretch",
-        )
-
-with another_empty_column:
-    with st.container(border=True):
-        st.markdown("**06 – Realidad aumentada facial**")
-        st.caption("Próximamente")
+for row_start in range(0, len(CARD_DEFINITIONS), 4):
+    card_columns = st.columns(4, gap="small")
+    for card_column, card_definition in zip(
+        card_columns,
+        CARD_DEFINITIONS[row_start:row_start + 4],
+    ):
+        image_relative_path, page_path, title, description = card_definition
+        with card_column:
+            with st.container(border=True):
+                card_image = ImageOps.fit(
+                    Image.open(ASSETS_DIRECTORY / image_relative_path).convert("RGB"),
+                    (640, 360),
+                    method=Image.Resampling.LANCZOS,
+                    centering=(0.5, 0.5),
+                )
+                st.image(card_image, width="stretch")
+                if page_path is None:
+                    st.write(title)
+                    st.caption(description)
+                else:
+                    st.page_link(
+                        page_path,
+                        label=f"{title}\n\n{description}",
+                        width="stretch",
+                    )
 
 st.divider()
 
