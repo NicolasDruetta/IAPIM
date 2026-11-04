@@ -12,7 +12,7 @@ from torchvision.models import MobileNet_V2_Weights, mobilenet_v2
 
 GALLERY_DIRECTORY = (
     Path(__file__).resolve().parents[1]
-    / "assets" / "images" / "05_clasificador_de_imagenes"
+    / "assets" / "images" / "07_clasificador_de_imagenes"
 )
 
 def classify_image(image_bytes, state):
@@ -84,7 +84,7 @@ if "visionlab_classifier" not in st.session_state:
 page_state = st.session_state.visionlab_classifier
 
 with st.container(horizontal=True, vertical_alignment="center", gap="small", width="content"):
-    st.title("05 – Clasificador de imágenes")
+    st.title("07 – Clasificador de imágenes con MobileNetV2")
     if st.button("Volver al Inicio", width="content"):
         st.switch_page("main.py")
 st.write("Clasifique fotografías en las 1.000 categorías de ImageNet con MobileNetV2.")
@@ -151,3 +151,8 @@ with right_column:
                 for category, percentage in predictions
             ))
             st.caption("Las probabilidades corresponden a categorías de ImageNet; no garantizan una identificación correcta.")
+
+st.info(
+    "**Modelo seleccionado:** MobileNetV2, un modelo preentrenado con ImageNet para clasificar fotografías "
+    "en 1.000 categorías de forma eficiente."
+)

@@ -9,7 +9,7 @@ from PIL import Image
 from functions import configure_page
 
 MODEL_NAME = "nvidia/segformer-b0-finetuned-ade-512-512"
-GALLERY_DIRECTORY = Path(__file__).resolve().parents[1] / "assets" / "images" / "03_analizador_de_escenas"
+GALLERY_DIRECTORY = Path(__file__).resolve().parents[1] / "assets" / "images" / "05_analizador_de_escenas"
 SUPPORTED_EXTENSIONS = {".jpg", ".jpeg", ".png"}
 
 def build_palette(class_ids):
@@ -131,7 +131,7 @@ def segment_scene(image_bytes, page_state):
 
     return image, color_mask, category_statistics, device
 
-configure_page("IAPIM - Analizador de escenas")
+configure_page("IAPIM - Analizador de escenas con SegFormer")
 
 if "visionlab_scenes" not in st.session_state:
     st.session_state.visionlab_scenes = {
@@ -146,7 +146,7 @@ if "visionlab_scenes" not in st.session_state:
 page_state = st.session_state.visionlab_scenes
 
 with st.container(horizontal=True, vertical_alignment="center", gap="small", width="content"):
-    st.title("03 – Analizador de escenas")
+    st.title("05 – Analizador de escenas con SegFormer")
     if st.button("Volver al Inicio", width="content"):
         st.switch_page("main.py")
 
@@ -189,7 +189,7 @@ with left_column:
             analysis_requested = True
 
     if not gallery_images:
-        st.warning("La galería todavía no contiene fotografías. Agregue imágenes en assets/images/03_analizador_de_escenas/.")
+        st.warning("La galería todavía no contiene fotografías. Agregue imágenes en assets/images/05_analizador_de_escenas/.")
     else:
         st.write("Imágenes precargadas")
         with st.container(key="scene-gallery"):
@@ -251,3 +251,8 @@ with right_column:
         )
 
         st.write(f"**Categorías presentes:** {len(category_statistics)} · {category_summary}")
+
+st.info(
+    "**Modelo seleccionado:** SegFormer B0, un modelo preentrenado sobre ADE20K para segmentar semánticamente "
+    "las regiones de una escena de forma local."
+)

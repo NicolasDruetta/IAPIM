@@ -42,21 +42,34 @@ TP2/
 │   ├── custom.css
 │   ├── icon.png
 │   └── images/
-│       ├── 02_detector_de_objetos/
-│       └── 03_analizador_de_escenas/
+│       ├── 00_main/
+│       ├── 02_reconocedor_de_gestos/
+│       ├── 03_detector_de_objetos/
+│       ├── 04_extractor_de_fondos/
+│       ├── 05_analizador_de_escenas/
+│       ├── 06_mejorador_de_imagenes/
+│       └── 07_clasificador_de_imagenes/
 ├── functions.py
 ├── main.py
-├── yolo11n.pt
+├── models/
+│   ├── emotion-ferplus-12-int8.onnx
+│   ├── gesture_recognizer.task
+│   ├── rmbg-1.4-quantized.onnx
+│   └── yolo11n.pt
 ├── pages/
 │   ├── 01_detector_facial.py
-│   ├── 02_detector_de_objetos.py
-│   └── 03_analizador_de_escenas.py
+│   ├── 02_reconocedor_de_gestos.py
+│   ├── 03_detector_de_objetos.py
+│   ├── 04_extractor_de_fondos.py
+│   ├── 05_analizador_de_escenas.py
+│   ├── 06_mejorador_de_imagenes.py
+│   └── 07_clasificador_de_imagenes.py
 └── README.md
 ```
 
 ## Herramientas del laboratorio
 
-### 01 – Detector facial
+### 01 – Detector de emociones faciales
 
 **Objetivo:** detectar rostros en una fotografía capturada con la cámara del navegador.
 
@@ -70,11 +83,11 @@ TP2/
 
 **Limitaciones:** el método puede verse afectado por poca iluminación, inclinación, oclusiones, rostros pequeños y encuadres poco frontales. No realiza reconocimiento de identidad ni estima edad, género o emociones.
 
-### 02 – Detector de objetos
+### 03 – Detector de objetos
 
 **Objetivo:** detectar objetos reconocidos por un modelo general preentrenado y mostrar sus categorías con sus niveles de confianza.
 
-**Entrada:** una imagen cargada desde la computadora mediante `st.file_uploader()` o una imagen precargada de `assets/images/02_detector_de_objetos/`.
+**Entrada:** una imagen cargada desde la computadora mediante `st.file_uploader()` o una imagen precargada de `assets/images/03_detector_de_objetos/`.
 
 **Funcionamiento:** la imagen se entrega a YOLO11n, un modelo de detección general preentrenado sobre el conjunto de datos COCO. El modelo devuelve las cajas delimitadoras, las categorías y las confianzas de cada detección. La inferencia utiliza Apple Metal Performance Shaders (MPS) cuando está disponible y CPU como alternativa.
 
@@ -82,7 +95,7 @@ TP2/
 
 **Resultados:** la aplicación muestra la imagen procesada con rectángulos, categoría y confianza de cada detección. También informa la cantidad total y el recuento agrupado por categoría.
 
-**Modelo y procedencia:** se utiliza `yolo11n.pt`, distribuido por Ultralytics como modelo preentrenado para detección general. El paquete Ultralytics se distribuye bajo licencia AGPL-3.0 y el modelo se basa en las categorías de COCO. El archivo de pesos debe conservarse junto a `main.py` para que la aplicación pueda cargarlo de forma local.
+**Modelo y procedencia:** se utiliza `models/yolo11n.pt`, distribuido por Ultralytics como modelo preentrenado para detección general. El paquete Ultralytics se distribuye bajo licencia AGPL-3.0 y el modelo se basa en las categorías de COCO.
 
 **Resultados de validación:** con un umbral de confianza de 0.25, las cinco imágenes precargadas produjeron los siguientes resultados:
 
@@ -96,11 +109,11 @@ TP2/
 
 **Limitaciones:** las imágenes precargadas contienen figuras geométricas sintéticas que no representan necesariamente las categorías de COCO. Por esa razón, YOLO puede no detectar objetos, asignar categorías incorrectas o producir detecciones de baja confianza. El modelo no fue entrenado específicamente para esas figuras y no se modificaron artificialmente los resultados.
 
-### 03 – Analizador de escenas
+### 05 – Analizador de escenas
 
 **Objetivo:** segmentar semánticamente una fotografía y asignar una categoría a cada píxel según las clases reconocidas por ADE20K, como cielo, edificios, calles, árboles, vegetación, suelo, paredes y muebles.
 
-**Entrada:** una fotografía cargada desde la computadora mediante `st.file_uploader()` o una fotografía real precargada en `assets/images/03_analizador_de_escenas/`. La página también permite elegir una fotografía aleatoria de la galería cuando esta contiene imágenes.
+**Entrada:** una fotografía cargada desde la computadora mediante `st.file_uploader()` o una fotografía real precargada en `assets/images/05_analizador_de_escenas/`. La página también permite elegir una fotografía aleatoria de la galería cuando esta contiene imágenes.
 
 **Segmentación semántica:** cada píxel recibe una clase del modelo. El resultado no representa objetos individuales ni utiliza cajas delimitadoras; una misma categoría puede aparecer en varias regiones de la imagen.
 
@@ -110,7 +123,7 @@ TP2/
 
 **Procesamiento:** el modelo se carga con `st.cache_resource()`. La inferencia selecciona CUDA cuando está disponible, MPS en Apple Silicon como alternativa y CPU en los demás equipos. La primera ejecución descarga el procesador, la configuración y los pesos desde Hugging Face y los conserva en la caché local del usuario.
 
-**Estado de la galería:** al momento de esta implementación no hay fotografías variadas disponibles en el repositorio. La carpeta `assets/images/03_analizador_de_escenas/` queda preparada para incorporar fotografías reales de ciudad, calle, bosque, playa, oficina o habitación. Hasta agregar esas imágenes, la interfaz muestra un aviso y permite utilizar la carga manual.
+**Estado de la galería:** al momento de esta implementación no hay fotografías variadas disponibles en el repositorio. La carpeta `assets/images/05_analizador_de_escenas/` queda preparada para incorporar fotografías reales de ciudad, calle, bosque, playa, oficina o habitación. Hasta agregar esas imágenes, la interfaz muestra un aviso y permite utilizar la carga manual.
 
 **Limitaciones:** la calidad depende de las clases y del entrenamiento de ADE20K, la resolución, la iluminación y la composición de la fotografía. La inferencia en CPU puede ser lenta y las categorías no deben interpretarse como detecciones de instancias ni como una descripción exhaustiva de la escena.
 

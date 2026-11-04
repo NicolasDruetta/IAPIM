@@ -1,3 +1,7 @@
+.stHorizontalBlock .stButton {
+    margin-top: 2px !important; /* Custom Nico. No tocar. */
+}
+
 .stMainBlockContainer {
     padding: 3rem 3rem !important; /* Custom Nico. No tocar. */
 }

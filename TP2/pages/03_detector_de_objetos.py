@@ -91,7 +91,7 @@ def run_detection(image_bytes, page_state):
 
     return detect_objects(image_bytes, page_state["model"])
 
-configure_page("IAPIM - Detector de objetos")
+configure_page("IAPIM - Detector de objetos con YOLO11n")
 
 if "visionlab_objects" not in st.session_state:
     st.session_state.visionlab_objects = {
@@ -108,7 +108,7 @@ page_state = st.session_state.visionlab_objects
 with st.container(
     horizontal=True, vertical_alignment="center", gap="small", width="content"
 ):
-    st.title("02 – Detector de objetos")
+    st.title("03 – Detector de objetos con YOLO11n")
     if st.button("Volver al Inicio", width="content"):
         st.switch_page("main.py")
 
@@ -128,7 +128,7 @@ with left_column:
         Path(__file__).resolve().parents[1]
         / "assets"
         / "images"
-        / "02_detector_de_objetos"
+        / "03_detector_de_objetos"
     )
 
     preloaded_images = sorted(
@@ -182,13 +182,6 @@ with left_column:
     if page_state["selected_name"] is not None:
         info_placeholder.write(f"Imagen seleccionada: {page_state['selected_name']}")
 
-    st.info(
-        "**Modelo seleccionado:** YOLO11n, la versión más liviana de YOLO11, entrenada con el conjunto de datos COCO (80 categorías). "
-        "Elegí esta versión para priorizar la velocidad de procesamiento y mantener el proyecto liviano. "
-        "Como está entrenada sobre un conjunto acotado de categorías, no detecta todos los objetos posibles, "
-        "pero para fines prácticos resulta suficiente para mostrar la idea de detección sin incorporar un modelo más pesado al repositorio."
-    )
-
 with right_column:
     st.subheader("Resultados del análisis")
     st.write("Visualice la fotografía con los objetos detectados.")
@@ -219,3 +212,8 @@ with right_column:
         )
 
         st.write(f"**Objetos detectados:** {object_count} · {category_summary}")
+
+st.info(
+    "**Modelo seleccionado:** YOLO11n, la versión más liviana de YOLO11, entrenada con el conjunto de datos COCO (80 categorías). "
+    "Se utiliza porque ofrece detección de objetos rápida y eficiente para el análisis local."
+)

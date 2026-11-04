@@ -9,7 +9,7 @@ GALLERY_DIRECTORY = (
     Path(__file__).resolve().parents[1]
     / "assets"
     / "images"
-    / "04_mejorador_de_imagenes"
+    / "06_mejorador_de_imagenes"
 )
 SUPPORTED_EXTENSIONS = {".jpg", ".jpeg", ".png"}
 
@@ -127,11 +127,11 @@ def read_image(image_bytes):
         raise ValueError("No se pudo leer la fotografía seleccionada.")
     return image_bgr
 
-configure_page("IAPIM - Mejorador inteligente de imágenes")
+configure_page("IAPIM - Mejorador inteligente de imágenes con OpenCV")
 page_state = initialize_state()
 
 with st.container(horizontal=True, vertical_alignment="center", gap="small", width="content"):
-    st.title("04 – Mejorador inteligente de imágenes")
+    st.title("06 – Mejorador inteligente de imágenes con OpenCV")
     if st.button("Volver al Inicio", width="content"):
         st.switch_page("main.py")
 
@@ -265,3 +265,8 @@ with right_column:
                 ),
             }
             st.info(method_descriptions[method])
+
+st.info(
+    "**Modelo seleccionado:** OpenCV, mediante funciones clásicas de procesamiento de imágenes para mejorar "
+    "el contraste y la luminosidad sin utilizar un modelo de aprendizaje automático."
+)
