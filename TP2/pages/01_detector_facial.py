@@ -82,6 +82,8 @@ def run_face(captured_bytes):
 
     return cv2.cvtColor(processed_image, cv2.COLOR_BGR2RGB), emotions
 
+### Empieza la página:
+
 configure_page("IAPIM - Detector de emociones faciales con FER+")
 
 with st.container(horizontal=True, vertical_alignment="center", gap="small", width="content"):

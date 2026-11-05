@@ -62,6 +62,8 @@ def run_hand(captured_bytes):
 
     return annotated_image, recognition_result
 
+### Empieza la página:
+
 configure_page("IAPIM - Reconocedor de gestos de manos con MediaPipe")
 
 with st.container(horizontal=True, vertical_alignment="center", gap="small", width="content"):
