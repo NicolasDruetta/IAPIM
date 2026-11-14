@@ -71,7 +71,7 @@ with left_column:
     analysis_requested = selected_bytes is not None
 
     gallery_images = sorted(path for path in GALLERY_DIRECTORY.glob("*") if path.suffix.lower() in {".jpg", ".jpeg", ".png"})
-    st.write("Imágenes precargadas")
+    st.write("Imágenes predefinidas")
 
     for row_start in range(0, len(gallery_images), 4):
         for gallery_column, image_path in zip(st.columns(4, gap="small"), gallery_images[row_start:row_start + 4]):

@@ -9,7 +9,7 @@ from PIL import Image
 from transformers import AutoImageProcessor, SegformerForSemanticSegmentation
 from functions import configure_page
 
-MODEL_NAME = "nvidia/segformer-b0-finetuned-ade-512-512"
+MODEL_DIRECTORY = Path(__file__).resolve().parents[1] / "models" / "segformer-b0-finetuned-ade-512-512"
 GALLERY_DIRECTORY = Path(__file__).resolve().parents[1] / "assets" / "images" / "05_analizador_de_escenas"
 SUPPORTED_EXTENSIONS = {".jpg", ".jpeg", ".png"}
 
@@ -20,8 +20,11 @@ def run_scene(image_bytes, opacity):
     except (OSError, ValueError) as error:
         raise ValueError("No se pudo leer la imagen seleccionada.") from error
 
-    processor = AutoImageProcessor.from_pretrained(MODEL_NAME)
-    model = SegformerForSemanticSegmentation.from_pretrained(MODEL_NAME)
+    processor = AutoImageProcessor.from_pretrained(MODEL_DIRECTORY, local_files_only=True)
+    model = SegformerForSemanticSegmentation.from_pretrained(
+        MODEL_DIRECTORY,
+        local_files_only=True,
+    )
     if torch.cuda.is_available():
         device = torch.device("cuda")
     elif torch.backends.mps.is_available():
@@ -122,7 +125,7 @@ with left_column:
             canvas.paste(resized_image, offset)
             card_images.append((image_path, canvas))
 
-    st.write("Imágenes precargadas")
+    st.write("Imágenes predefinidas")
     for row_start in range(0, len(card_images), 4):
         for image_column, (image_path, card_image) in zip(
             st.columns(4, gap="small"),

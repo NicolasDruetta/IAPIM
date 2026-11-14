@@ -32,7 +32,7 @@ El archivo `requirements.txt` también conserva dependencias disponibles para el
 
 El proyecto utiliza la arquitectura multipágina tradicional de Streamlit. `main.py` funciona como punto de entrada y Home, mientras que cada archivo de `pages/` define una herramienta independiente con su interfaz y su procesamiento específico. `functions.py` centraliza la configuración común de las páginas, incluida la identidad de la aplicación, el ícono, el diseño ancho y la carga del estilo global del proyecto.
 
-La interfaz se construye con componentes nativos de Streamlit. El archivo `assets/custom.css` contiene únicamente ajustes globales de espaciado y adaptación de columnas. Las imágenes precargadas se organizan por herramienta dentro de `assets/images/` y se descubren mediante rutas relativas al proyecto.
+La interfaz se construye con componentes nativos de Streamlit. El archivo `assets/custom.css` contiene únicamente ajustes globales de espaciado y adaptación de columnas. Las imágenes predefinidas se organizan por herramienta dentro de `assets/images/` y se descubren mediante rutas relativas al proyecto.
 
 ### Estructura real
 
@@ -97,7 +97,7 @@ TP2/
 
 **Modelo y procedencia:** se utiliza `models/yolo11n.pt`, distribuido por Ultralytics como modelo preentrenado para detección general. El paquete Ultralytics se distribuye bajo licencia AGPL-3.0 y el modelo se basa en las categorías de COCO.
 
-**Resultados de validación:** con un umbral de confianza de 0.25, las cinco imágenes precargadas produjeron los siguientes resultados:
+**Resultados de validación:** con un umbral de confianza de 0.25, las cinco imágenes predefinidas produjeron los siguientes resultados:
 
 | Imagen | Detecciones | Categorías observadas |
 | --- | ---: | --- |
@@ -107,7 +107,7 @@ TP2/
 | `04.jpg` | 1 | cell phone (1) |
 | `05.jpg` | 4 | potted plant (1), scissors (3) |
 
-**Limitaciones:** las imágenes precargadas contienen figuras geométricas sintéticas que no representan necesariamente las categorías de COCO. Por esa razón, YOLO puede no detectar objetos, asignar categorías incorrectas o producir detecciones de baja confianza. El modelo no fue entrenado específicamente para esas figuras y no se modificaron artificialmente los resultados.
+**Limitaciones:** las imágenes predefinidas contienen figuras geométricas sintéticas que no representan necesariamente las categorías de COCO. Por esa razón, YOLO puede no detectar objetos, asignar categorías incorrectas o producir detecciones de baja confianza. El modelo no fue entrenado específicamente para esas figuras y no se modificaron artificialmente los resultados.
 
 ### 05 – Analizador de escenas
 
@@ -121,7 +121,7 @@ TP2/
 
 **Resultados:** la página muestra la fotografía original, una superposición coloreada, una leyenda con los nombres reales de las categorías, el porcentaje de píxeles de cada categoría y la cantidad de categorías presentes. La opacidad se modifica con un slider sin repetir la inferencia: el mapa y las estadísticas permanecen en `st.session_state`.
 
-**Procesamiento:** el modelo se carga con `st.cache_resource()`. La inferencia selecciona CUDA cuando está disponible, MPS en Apple Silicon como alternativa y CPU en los demás equipos. La primera ejecución descarga el procesador, la configuración y los pesos desde Hugging Face y los conserva en la caché local del usuario.
+**Procesamiento:** el modelo se carga desde `models/segformer-b0-finetuned-ade-512-512`. La inferencia selecciona CUDA cuando está disponible, MPS en Apple Silicon como alternativa y CPU en los demás equipos. Los archivos del procesador, la configuración y los pesos se incluyen localmente en el proyecto.
 
 **Estado de la galería:** al momento de esta implementación no hay fotografías variadas disponibles en el repositorio. La carpeta `assets/images/05_analizador_de_escenas/` queda preparada para incorporar fotografías reales de ciudad, calle, bosque, playa, oficina o habitación. Hasta agregar esas imágenes, la interfaz muestra un aviso y permite utilizar la carga manual.
 
@@ -162,10 +162,10 @@ Streamlit indicará la dirección local de la aplicación, normalmente `http://l
 
 ## Consideraciones técnicas
 
-Las imágenes deben presentar suficiente resolución, contraste y calidad para el algoritmo correspondiente. La iluminación uniforme, la reducción de oclusiones y la separación visual entre objetos favorecen resultados más estables. En la herramienta 03, la primera carga del modelo SegFormer requiere conexión a Internet y espacio de caché para los archivos descargados; las ejecuciones posteriores pueden reutilizar esa caché.
+Las imágenes deben presentar suficiente resolución, contraste y calidad para el algoritmo correspondiente. La iluminación uniforme, la reducción de oclusiones y la separación visual entre objetos favorecen resultados más estables. El analizador de escenas utiliza los archivos locales de SegFormer incluidos en `models/`.
 
 Los métodos de detección utilizados dependen del modelo, sus categorías de entrenamiento, el umbral de confianza, la resolución y las condiciones de la escena. En particular, YOLO11n no debe interpretarse como un clasificador universal de objetos fuera de las categorías para las que fue entrenado.
 
 ## Estado actual del proyecto
 
-Se encuentran implementados el Home, la navegación entre las tres herramientas, el detector facial, el detector de objetos mediante YOLO11n y el analizador de escenas mediante SegFormer. La galería de escenas queda preparada, pero requiere fotografías reales para evaluar visualmente la herramienta con imágenes precargadas. La inferencia real se ejecutará después de instalar las dependencias y descargar el modelo desde Hugging Face.
+Se encuentran implementados el Home, la navegación entre las herramientas, el detector facial, el detector de objetos mediante YOLO11n y el analizador de escenas mediante SegFormer. La galería de escenas queda preparada, pero requiere fotografías reales para evaluar visualmente la herramienta con imágenes predefinidas. La inferencia real se ejecutará después de instalar las dependencias; los modelos utilizados están incluidos localmente en `models/`.

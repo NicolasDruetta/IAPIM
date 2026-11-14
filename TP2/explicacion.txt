@@ -1,0 +1,32 @@
+Nicolás Druetta - Parcial 2 - Procesamiento de Imágenes
+
+Desarrollé una aplicación web con Streamlit llamada IAPIM - Vision Lab. La aplicación reúne distintas herramientas de visión artificial y procesamiento de imágenes en una interfaz multipágina.
+
+El programa permite trabajar con fotografías cargadas por el usuario o con imágenes predefinidas incluidas en la carpeta assets/images. Cada herramienta aplica una técnica diferente:
+
+- Detector de emociones faciales: detecto rostros y reconozco ocho expresiones faciales mediante el modelo FER+.
+- Reconocedor de gestos: detecto las manos, obtengo sus puntos principales y clasifico los gestos con MediaPipe.
+- Detector de objetos: detecto objetos visualmente separables mediante YOLO11n.
+- Extractor de fondos: separo el objeto principal del fondo usando una máscara alfa con RMBG-1.4.
+- Analizador de escenas: segmento la imagen por regiones semánticas utilizando SegFormer y muestra las categorías encontradas.
+- Mejorador de imágenes: aplico ecualización de histogramas, CLAHE o corrección gamma para modificar el contraste y la luminosidad.
+- Clasificador de imágenes: clasifico las fotografías en categorías de ImageNet utilizando MobileNetV2.
+
+Para implementar el programa utilicé Python, Streamlit, OpenCV, NumPy, Pillow, PyTorch, Torchvision, ONNX Runtime, MediaPipe, Ultralytics y Transformers.
+La aplicación está organizada en un archivo principal, una carpeta pages para las herramientas y una carpeta assets para las imágenes y los estilos.
+
+Los modelos que incluí localmente dentro de la carpeta models son:
+
+- emotion-ferplus-12-int8.onnx para el reconocimiento de emociones.
+- gesture_recognizer.task para el reconocimiento de gestos.
+- yolo11n.pt para la detección de objetos.
+- rmbg-1.4-quantized.onnx para la extracción de fondos.
+- mobilenet_v2-7ebf99e0.pth para la clasificación de imágenes.
+- segformer-b0-finetuned-ade-512-512 para el análisis semántico de escenas.
+
+
+La aplicación se ejecuta localmente con Streamlit mediante el archivo main.py. El usuario puede navegar entre las herramientas, cargar una imagen, seleccionar una imagen predefinida y visualizar el resultado del procesamiento.
+
+Incluí imágenes predefinidas organizadas por herramienta dentro de assets/images. De esta forma se puede probar cada función sin tener que cargar una fotografía desde la computadora.
+
+El objetivo del programa es integrar diferentes técnicas de procesamiento de imágenes y modelos de visión artificial en una sola aplicación práctica y sencilla de utilizar.

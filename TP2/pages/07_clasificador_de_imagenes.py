@@ -85,7 +85,7 @@ with left_column:
             canvas[offset_y:offset_y + resized.shape[0], offset_x:offset_x + resized.shape[1]] = resized
             card_images.append((image_path, cv2.cvtColor(canvas, cv2.COLOR_BGR2RGB)))
 
-    st.write("Imágenes precargadas")
+    st.write("Imágenes predefinidas")
 
     for row_start in range(0, len(card_images), 4):
         for image_column, (image_path, card_image) in zip(

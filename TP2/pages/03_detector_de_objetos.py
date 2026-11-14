@@ -81,7 +81,7 @@ with left_column:
     selected_name = uploaded_image.name if uploaded_image is not None else None
     analysis_requested = selected_bytes is not None
 
-    st.write("Imágenes precargadas")
+    st.write("Imágenes predefinidas")
 
     for row_start in range(0, len(card_images), 4):
         for image_column, (image_path, card_image) in zip(st.columns(4, gap="small"), card_images[row_start:row_start + 4]):
