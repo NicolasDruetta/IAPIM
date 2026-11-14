@@ -1,8 +1,6 @@
-import certifi
 import cv2
 import io
 import numpy as np
-import os
 import streamlit as st
 import torch
 
@@ -12,6 +10,7 @@ from torchvision.models import MobileNet_V2_Weights, mobilenet_v2
 from functions import configure_page
 
 GALLERY_DIRECTORY = Path(__file__).resolve().parents[1] / "assets" / "images" / "07_clasificador_de_imagenes"
+MODEL_PATH = Path(__file__).resolve().parents[1] / "models" / "mobilenet_v2-7ebf99e0.pth"
 
 def run_classifier(image_bytes):
     """Clasifica una fotografía con las transformaciones oficiales de MobileNetV2."""
@@ -20,10 +19,10 @@ def run_classifier(image_bytes):
             raise ValueError("Seleccione una fotografía JPG o PNG.")
         image = ImageOps.exif_transpose(source).convert("RGB")
 
-    os.environ.setdefault("SSL_CERT_FILE", certifi.where())
-    os.environ.setdefault("REQUESTS_CA_BUNDLE", certifi.where())
     weights = MobileNet_V2_Weights.DEFAULT
-    model = mobilenet_v2(weights=weights).eval()
+    model = mobilenet_v2(weights=None)
+    model.load_state_dict(torch.load(MODEL_PATH, map_location="cpu", weights_only=True))
+    model.eval()
     batch = weights.transforms()(image).unsqueeze(0)
 
     with torch.inference_mode():
