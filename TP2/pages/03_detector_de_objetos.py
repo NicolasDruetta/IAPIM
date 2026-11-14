@@ -118,5 +118,5 @@ with right_column:
 
 st.info(
     "**Modelo seleccionado:** YOLO11n, la versión más liviana de YOLO11, entrenada con el conjunto de datos COCO (80 categorías). "
-    "Se utiliza porque ofrece detección de objetos rápida y eficiente para el análisis local."
+    "Lo utilizo porque ofrece detección de objetos rápida y eficiente para el análisis local."
 )

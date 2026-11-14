@@ -18,13 +18,13 @@ CARD_DEFINITIONS = (
         "00_main/02.jpg",
         "pages/02_reconocedor_de_gestos.py",
         "**02 – Reconocedor de gestos de manos con MediaPipe**",
-        "Detecte manos e identifique gestos mediante inteligencia artificial.",
+        "Reconozca manos y clasifique gestos mediante inteligencia artificial.",
     ),
     (
         "03_detector_de_objetos/01.jpg",
         "pages/03_detector_de_objetos.py",
         "**03 – Detector de objetos con YOLO11n**",
-        "Detecte objetos visualmente separables.",
+        "Identifique objetos visualmente separables.",
     ),
     (
         "04_extractor_de_fondos/01.jpg",

@@ -130,5 +130,5 @@ with right_column:
 
 st.info(
     "**Modelo seleccionado:** FER+, un modelo preentrenado para reconocer ocho expresiones faciales. "
-    "Se utiliza porque permite analizar emociones localmente, sin enviar la fotografía a servicios externos."
+    "Lo utilizo porque permite analizar emociones localmente, sin enviar la fotografía a servicios externos."
 )

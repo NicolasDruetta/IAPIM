@@ -1,6 +1,8 @@
+import certifi
 import cv2
 import io
 import numpy as np
+import os
 import streamlit as st
 import torch
 
@@ -18,6 +20,8 @@ def run_classifier(image_bytes):
             raise ValueError("Seleccione una fotografía JPG o PNG.")
         image = ImageOps.exif_transpose(source).convert("RGB")
 
+    os.environ.setdefault("SSL_CERT_FILE", certifi.where())
+    os.environ.setdefault("REQUESTS_CA_BUNDLE", certifi.where())
     weights = MobileNet_V2_Weights.DEFAULT
     model = mobilenet_v2(weights=weights).eval()
     batch = weights.transforms()(image).unsqueeze(0)
