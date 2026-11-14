@@ -12,43 +12,43 @@ CARD_DEFINITIONS = (
         "00_main/01.jpg",
         "pages/01_detector_facial.py",
         "**01 – Detector de emociones faciales con FER+**",
-        "Detecte rostros y analice sus expresiones faciales",
+        "Detecte rostros y analice sus expresiones faciales.",
     ),
     (
         "00_main/02.jpg",
         "pages/02_reconocedor_de_gestos.py",
         "**02 – Reconocedor de gestos de manos con MediaPipe**",
-        "Detecte manos e identifique gestos mediante inteligencia artificial",
+        "Detecte manos e identifique gestos mediante inteligencia artificial.",
     ),
     (
         "03_detector_de_objetos/01.jpg",
         "pages/03_detector_de_objetos.py",
         "**03 – Detector de objetos con YOLO11n**",
-        "Detecte objetos visualmente separables",
+        "Detecte objetos visualmente separables.",
     ),
     (
         "04_extractor_de_fondos/01.jpg",
         "pages/04_extractor_de_fondos.py",
         "**04 – Extractor inteligente de fondos con RMBG-1.4**",
-        "Separe el objeto principal de una fotografía",
+        "Separe el objeto principal de una fotografía.",
     ),
     (
         "05_analizador_de_escenas/01.jpg",
         "pages/05_analizador_de_escenas.py",
         "**05 – Analizador de escenas con SegFormer**",
-        "Identifique regiones semánticas en escenas",
+        "Identifique regiones semánticas en escenas.",
     ),
     (
         "06_mejorador_de_imagenes/01.jpg",
         "pages/06_mejorador_de_imagenes.py",
         "**06 – Mejorador inteligente de imágenes con OpenCV**",
-        "Mejore el contraste y la luminosidad de una fotografía",
+        "Mejore el contraste y la luminosidad de una fotografía.",
     ),
     (
         "07_clasificador_de_imagenes/01.jpg",
         "pages/07_clasificador_de_imagenes.py",
         "**07 – Clasificador de imágenes con MobileNetV2**",
-        "Clasifique fotografías en categorías de ImageNet",
+        "Clasifique fotografías en categorías de ImageNet.",
     ),
 )
 
@@ -66,7 +66,7 @@ for row_start in range(0, len(CARD_DEFINITIONS), 4):
     ):
         image_relative_path, page_path, title, description = card_definition
         with card_column:
-            with st.container(border=True):
+            with st.container(border=True, height="stretch"):
                 card_image = ImageOps.fit(
                     Image.open(ASSETS_DIRECTORY / image_relative_path).convert("RGB"),
                     (640, 360),

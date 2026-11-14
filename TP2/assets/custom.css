@@ -1,9 +1,17 @@
+a p {
+    white-space: normal !important;
+}
+
+hr {
+    margin: 1em 0px !important; /* Custom Nico. */
+}
+
 .stHorizontalBlock .stButton {
-    margin-top: 2px !important; /* Custom Nico. No tocar. */
+    margin-top: 2px !important; /* Custom Nico. */
 }
 
 .stMainBlockContainer {
-    padding: 3rem 3rem !important; /* Custom Nico. No tocar. */
+    padding: 3rem 3rem !important; /* Custom Nico. */
 }
 
 .st-key-footer {
@@ -16,10 +24,6 @@
 .st-key-footer p {
     margin-left: auto;
     text-align: right;
-}
-
-hr {
-    margin: 1em 0px !important; /* Custom Nico. No tocar. */
 }
 
 /* Media Queries. */
